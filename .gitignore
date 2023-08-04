@@ -1,0 +1,5 @@
+.Rproj.user
+*.csv
+*.tsv
+*.nii
+*.nii.gz
