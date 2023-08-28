@@ -24,8 +24,8 @@ cardio_measures = read_tsv(file.path(data_dir, "behavioral/cardio_measures.tsv")
 participants = full_join(standard_data, approved_data, by='CCID') %>%
   left_join(., vstm, by='CCID') %>%
   left_join(., rtsimple, by='CCID') %>% left_join(., rtchoice, by='CCID') %>%
-  full_join(., emotional_memory, by='CCID') %>% full_join(., cattell, by='CCID') %>%
-  full_join(., cardio_measures, by='CCID') %>%
+  left_join(., emotional_memory, by='CCID') %>% full_join(., cattell, by='CCID') %>%
+  left_join(., cardio_measures, by='CCID') %>%
   mutate(CCID = str_replace(CCID, "CC", "sub-CC")) %>% rename(participant_id=CCID)
 names(participants) <- tolower(names(participants))
 write_tsv(participants, "/Volumes/Research/lazarm03lab/labspace/AD/camcan995/raw/participants.tsv")
