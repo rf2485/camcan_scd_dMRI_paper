@@ -51,3 +51,4 @@ anat_participants = read_tsv(file.path(data_dir, "imaging/anat/participants.tsv"
   select(participant_id) %>%
   left_join(., participants, by='participant_id')
 anat_over_55 = anat_participants %>% filter(age > 55)
+write_tsv(anat_over_55, "anat_over_55.tsv")
