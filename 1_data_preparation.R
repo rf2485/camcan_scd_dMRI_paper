@@ -46,6 +46,12 @@ dwi_participants = read_tsv(file.path(data_dir, "imaging/dwi/participants.tsv"))
 dwi_over_55 = dwi_participants %>% filter(age > 55)
 write_tsv(dwi_over_55, "dwi_over_55.tsv")
 
+### split dwi_over_55 into SCD and controls ###
+scd = dwi_over_55 %>% filter(SCD == TRUE)
+write_tsv(scd, "dwi_over_55_scd.tsv")
+ctl = dwi_over_55 %>% filter(SCD == FALSE)
+write_tsv(ctl, "dwi_over_55_ctl.tsv")
+
 ### filter by age and if anat is available ###
 anat_participants = read_tsv(file.path(data_dir, "imaging/anat/participants.tsv")) %>%
   select(participant_id) %>%
