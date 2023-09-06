@@ -1,6 +1,7 @@
 library(tidyverse)
 
 design_matrix <- read.delim("dwi_over_55.tsv", tryLogical = F) %>%
+  arrange(SCD, participant_id) %>%
   mutate(EV1 = ifelse(SCD == 0, 1, 0),
          EV2 = ifelse(SCD == 1, 1, 0)) %>%
   rename(EV3 = age, EV4 = homeint_storyrecall_d) %>%
