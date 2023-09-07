@@ -93,6 +93,7 @@ lower_story_OD <- df_OD %>% filter(story_d < 0)
 ######################## scd-story interaction scatterplots #################################################
 fig1 <- read_pptx()
 layout_summary(fig1)
+#device size 6.80x4.86 inches
 
 FA_scd_story <- lm(mean_FA_r_lower_cingulum_mask ~ story_d * cohort, df_FA)
 summary(FA_scd_story)
@@ -108,14 +109,14 @@ fig1FA <- interact_plot(FA_scd_story, pred = story_d, modx = cohort,
          signif(summary(FA_scd_story)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = 9, y = 0.385, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(ctl_FA_story)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_FA_story)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = 9, y = 0.385, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(scd_FA_story)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -128,6 +129,9 @@ fig1FA <- interact_plot(FA_scd_story, pred = story_d, modx = cohort,
 fig1FA
 fig1 <- add_slide(fig1)
 fig1 <- ph_with(x = fig1, fig1FA, location = ph_location_type(type = "body"))
+
+# -------------------------------------------------------------------------
+
 
 MD_scd_story <- lm(mean_MD_r_lower_cingulum_mask ~ story_d * cohort, df_MD)
 summary(MD_scd_story)
@@ -143,14 +147,14 @@ fig1MD <- interact_plot(MD_scd_story, pred = story_d, modx = cohort,
          signif(summary(MD_scd_story)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = 9, y = 7.46e-04, vjust = -1,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(ctl_MD_story)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_MD_story)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = 9, y = 7.46e-04, vjust = 1,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(scd_MD_story)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -174,18 +178,17 @@ fig1L1 <- interact_plot(L1_scd_story, pred = story_d, modx = cohort,
   theme(legend.position = 'none') +
   labs(x = "Story Delayed Recall", y = "Mean AxD", title = "Right Mean AxD",
        subtitle = paste0(
-         "interaction p = ",
-         signif(summary(L1_scd_story)$coefficients[4,4], 2)
+         "interaction p = ", signif(summary(L1_scd_story)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = 9, y = 1e-03, vjust = -1,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(ctl_L1_story)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_L1_story)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = 9, y = 1e-03, vjust = 1,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(scd_L1_story)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -213,14 +216,14 @@ fig1RD <- interact_plot(RD_scd_story, pred = story_d, modx = cohort,
          signif(summary(RD_scd_story)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = 9, y = 6.7e-04, vjust = -1,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(ctl_RD_story)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_RD_story)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = 9, y = 6.7e-04, vjust = 1,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(scd_RD_story)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -248,14 +251,14 @@ fig1ISOVF <- interact_plot(ISOVF_scd_story, pred = story_d, modx = cohort,
          signif(summary(ISOVF_scd_story)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = 9, y = 0.7, vjust = -1,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(ctl_ISOVF_story)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_ISOVF_story)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = 9, y = 0.7, vjust = 1,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(scd_ISOVF_story)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -283,14 +286,14 @@ fig1ICVF <- interact_plot(ICVF_scd_story, pred = story_d, modx = cohort,
          signif(summary(ICVF_scd_story)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 0.9, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(ctl_ICVF_story)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_ICVF_story)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -10, y = 0.9, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(scd_ICVF_story)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -318,14 +321,14 @@ fig1OD <- interact_plot(OD_scd_story, pred = story_d, modx = cohort,
          signif(summary(OD_scd_story)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = 9, y = 0.42, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(ctl_OD_story)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_OD_story)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = 9, y = 0.42, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(scd_OD_story)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -359,14 +362,14 @@ fig3FA <- interact_plot(FA_scd_age, pred = age, modx = cohort,
          signif(summary(FA_scd_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = 15, y = 0.39, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(ctl_FA_age)$coefficients[2,4], 2),
                       "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_FA_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = 15, y = 0.39, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(scd_FA_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -394,14 +397,14 @@ fig3MD <- interact_plot(MD_scd_age, pred = age, modx = cohort,
          signif(summary(MD_scd_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 7.46e-04, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(ctl_MD_age)$coefficients[2,4], 2),
                       "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_MD_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -10, y = 7.46e-04, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(scd_MD_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -425,20 +428,20 @@ fig3L1 <- interact_plot(L1_scd_age, pred = age, modx = cohort,
   theme(legend.position = 'none') +
   labs(x = "Mean Centered Age", y = "Mean AxD", title = "Bilateral Mean AxD",
        subtitle = paste0(
-         "interaction p = ",
-         signif(summary(L1_scd_age)$coefficients[4,4], 2)
+         "p < 0.001"
+         # "interaction p = ", signif(summary(L1_scd_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 1e-03, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(ctl_L1_age)$coefficients[2,4], 2),
                       "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_L1_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -10, y = 1e-03, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
-                      # "p = ", signif(summary(scd_L1_age)$coefficients[2,4], 2),
+                      # "p = ", signif(summary(scd_MD_age)$coefficients[2,4], 2),
                       "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(scd_L1_age)$adj.r.squared, 2)),
                     color = "SCD"), show.legend = F,
@@ -464,14 +467,14 @@ fig3RD <- interact_plot(RD_scd_age, pred = age, modx = cohort,
          signif(summary(RD_scd_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 6.7e-04, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(ctl_RD_age)$coefficients[2,4], 2),
                       "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_RD_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -10, y = 6.7e-04, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(scd_RD_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -499,14 +502,14 @@ fig3ISOVF <- interact_plot(ISOVF_scd_age, pred = age, modx = cohort,
          signif(summary(ISOVF_scd_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 0.7, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(ctl_ISOVF_age)$coefficients[2,4], 2),
                       "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_ISOVF_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -10, y = 0.7, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(scd_ISOVF_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -534,14 +537,14 @@ fig3ICVF <- interact_plot(ICVF_scd_age, pred = age, modx = cohort,
          signif(summary(ICVF_scd_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -12, y = 0.91, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(ctl_ICVF_age)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_ICVF_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -12, y = 0.91, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(scd_ICVF_age)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -569,14 +572,14 @@ fig3OD <- interact_plot(OD_scd_age, pred = age, modx = cohort,
          signif(summary(OD_scd_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -13, y = 0.431, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(ctl_OD_age)$coefficients[2,4], 2),
                       "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_OD_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -13, y = 0.431, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(scd_OD_age)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -611,13 +614,13 @@ fig5FA <- interact_plot(FA_story_age, pred = age, modx = story_d, modx.values = 
          "interaction p = ", signif(summary(FA_story_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = 15, y = 0.39, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(upper_story_FA_age)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(upper_story_FA_age)$adj.r.squared, 2))),
                 color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  geom_richtext(aes(x = 15, y = 0.39, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(lower_story_FA_age)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -645,13 +648,13 @@ fig5MD <- interact_plot(MD_story_age, pred = age, modx = story_d, modx.values = 
          "interaction p = ", signif(summary(MD_story_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 7.3e-04, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(upper_story_MD_age)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(upper_story_MD_age)$adj.r.squared, 2))),
                 color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  geom_richtext(aes(x = -10, y = 7.3e-04, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(lower_story_MD_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -679,13 +682,13 @@ fig5L1 <- interact_plot(L1_story_age, pred = age, modx = story_d, modx.values = 
          "interaction p = ", signif(summary(L1_story_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 9.9e-04, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(upper_story_L1_age)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(upper_story_L1_age)$adj.r.squared, 2))),
                 color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  geom_richtext(aes(x = -10, y = 9.9e-04, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(lower_story_L1_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -713,13 +716,13 @@ fig5RD <- interact_plot(RD_story_age, pred = age, modx = story_d, modx.values = 
          "interaction p = ", signif(summary(RD_story_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 6.5e-04, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(upper_story_RD_age)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(upper_story_RD_age)$adj.r.squared, 2))),
                 color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  geom_richtext(aes(x = -10, y = 6.5e-04, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(lower_story_RD_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -747,13 +750,13 @@ fig5ISOVF <- interact_plot(ISOVF_story_age, pred = age, modx = story_d, modx.val
          "interaction p = ", signif(summary(ISOVF_story_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -10, y = 0.7, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(upper_story_ISOVF_age)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(upper_story_ISOVF_age)$adj.r.squared, 2))),
                 color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  geom_richtext(aes(x = -10, y = 0.7, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(lower_story_ISOVF_age)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -781,13 +784,13 @@ fig5ICVF <- interact_plot(ICVF_story_age, pred = age, modx = story_d, modx.value
          "interaction p = ", signif(summary(ICVF_story_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -12, y = 0.91, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(upper_story_ICVF_age)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(upper_story_ICVF_age)$adj.r.squared, 2))),
                 color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  geom_richtext(aes(x = -12, y = 0.91, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       # "p = ", signif(summary(lower_story_ICVF_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -815,13 +818,13 @@ fig5OD <- interact_plot(OD_story_age, pred = age, modx = story_d, modx.values = 
          "interaction p = ", signif(summary(OD_story_age)$coefficients[4,4], 2)
        )
   ) +
-  geom_richtext(aes(x = -12.5, y = 0.43, vjust = -1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(upper_story_OD_age)$coefficients[2,4], 2),
                       # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(upper_story_OD_age)$adj.r.squared, 2))),
                 color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  geom_richtext(aes(x = -12.5, y = 0.43, vjust = 1,
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
                       "p = ", signif(summary(lower_story_OD_age)$coefficients[2,4], 2),
                       # "p < 0.001",
