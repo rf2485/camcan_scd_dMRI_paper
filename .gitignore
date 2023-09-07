@@ -3,3 +3,6 @@
 *.tsv
 *.nii
 *.nii.gz
+*.txt
+*.docx
+*.pptx
