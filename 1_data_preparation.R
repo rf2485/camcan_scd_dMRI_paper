@@ -1,8 +1,10 @@
 library(tidyverse)
 #replace with location for your source data from the CamCan data repository
 data_dir = "/Volumes/Research/lazarm03lab/labspace/AD/camcan995/source_materials"
+#replace with location of your BIDS data
+raw_dir = "/Volumes/Research/lazarm03lab/labspace/AD/camcan995/raw"
 
-### pulling all spreadsheets into BIDS compliant participants.tsv ###
+####################### pulling all spreadsheets into BIDS compliant participants.tsv ##############################
 
 standard_data = read_csv(file.path(data_dir, "standard_data.csv"))
 approved_data = read_tsv(file.path(data_dir, "behavioral/approved_data.tsv"))
@@ -28,10 +30,11 @@ participants = full_join(standard_data, approved_data, by='CCID') %>%
   left_join(., cardio_measures, by='CCID') %>%
   mutate(CCID = str_replace(CCID, "CC", "sub-CC")) %>% rename(participant_id=CCID)
 names(participants) <- tolower(names(participants))
-write_tsv(participants, "/Volumes/Research/lazarm03lab/labspace/AD/camcan995/raw/participants.tsv")
+write_tsv(participants, file.path(raw_dir, "participants.tsv"))
 
-#replace with location of your participants.tsv
-participants = read.delim("/Volumes/Research/lazarm03lab/labspace/AD/camcan995/raw/participants.tsv", tryLogical = FALSE)
+########################## creating analysis specific data sets ######################################
+
+participants = read.delim(file.path(raw_dir, "participants.tsv"), tryLogical = FALSE)
 participants$SCD <- participants$homeint_v230
 participants$SCD[participants$SCD == 1] <- FALSE
 participants$SCD[participants$SCD == 2] <- TRUE
