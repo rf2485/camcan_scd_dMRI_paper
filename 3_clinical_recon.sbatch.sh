@@ -7,11 +7,15 @@
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
-#SBATCH --array=1-327
+#SBATCH --array=1-328
 
 dirS=/gpfs/data/lazarlab/CamCan995/raw
 
-subj_list=$(cut -f1 anat_over_55.tsv)
+mkdir -p recon-all-clinical/
+cut -f1 anat_over_55.tsv > recon-all-clinical/subjectsfile.txt
+sed -i '' '1d' recon-all-clinical/subjectsfile.txt
+
+subj_list=$(cut -f1 recon-all-clinical/subjectsfile.txt)
 subj_list=($subj_list)
 subj_num=$(($SLURM_ARRAY_TASK_ID-1))
 subj=${subj_list[$subj_num]}
