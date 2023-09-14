@@ -23,4 +23,5 @@ subj=${subj_list[$subj_num]}
 module load freesurfer/7.4.1
 export SUBJECTS_DIR=recon-all-clinical/
 recon-all-clinical.sh ${dirS}/${subj}/anat/${subj}_T1w.nii.gz $subj 4 recon-all-clinical
-recon-all -segstats -wmparc -balabels -subjid ${subj}
+mri_convert ${dirS}/${subj}/anat/${subj}_T1w.nii.gz recon-all-clinical/$subj/mri/orig/001.mgz
+recon-all -motioncor -talairach -nuintensitycor -normalization -gcareg -pctsurfcon -segstats -wmparc -balabels -subjid ${subj}
