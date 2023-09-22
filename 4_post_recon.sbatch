@@ -13,8 +13,6 @@ basedir=/gpfs/data/lazarlab/CamCan995
 dirS=$basedir/raw
 outdir=$basedir/derivatives/camcan_scd_dMRI_paper/recon-all-clinical
 
-mkdir -p $outdir
-
 subj_list=$(cut -f1 anat_over_55.tsv)
 subj_list=($subj_list)
 subj_num=$(($SLURM_ARRAY_TASK_ID-1))
@@ -22,6 +20,5 @@ subj=${subj_list[$subj_num]}
 
 module load freesurfer/7.4.1
 export SUBJECTS_DIR=$outdir
-recon-all-clinical.sh ${dirS}/${subj}/anat/${subj}_T1w.nii.gz $subj 4 $outdir
 mri_convert ${dirS}/${subj}/anat/${subj}_T1w.nii.gz $outdir/$subj/mri/orig/001.mgz
 recon-all -motioncor -talairach -nuintensitycor -normalization -gcareg -pctsurfcon -segstats -wmparc -balabels -subjid ${subj} -sd ${outdir}

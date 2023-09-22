@@ -6,15 +6,15 @@
 #SBATCH --time=3-00:00:00
 
 cd tbss
-module load condaenvs/gpu/fsl605
+module load fsl/.6.0.6
 
-fsl_sub tbss_2_reg -T
-fsl_sub tbss_3_postreg -S
-fsl_sub tbss_4_prestats 0.3
+tbss_2_reg -T
+tbss_3_postreg -S
+tbss_4_prestats 0.3
 
 non_FA_list=(MD RD L1 ICVF ISOVF OD)
 for metric in $non_FA_list; do
-  fsl_sub tbss_non_FA ${metric}
+  tbss_non_FA ${metric}
 done
 
 cd stats/

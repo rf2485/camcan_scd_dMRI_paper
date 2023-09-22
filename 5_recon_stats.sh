@@ -10,4 +10,5 @@ aparcstats2table --subjectsfile=subjectsfile.txt --hemi rh --tablefile=rh_aparct
 asegstats2table --subjectsfile=subjectsfile.txt --tablefile=asegtable.tsv --common-segs
 asegstats2table --subjectsfile=subjectsfile.txt --stats=wmparc.stats --tablefile=wmparctable.tsv --common-segs
 
-qatools.py --subjects_dir ./ --output_dir ../recon_qc --screenshots --fornix --outlier
+pip install fsqc
+run_fsqc --subjects_dir ./ --output_dir ../recon_qc --screenshots-html --surfaces-html --skullstrip-html --fornix-html --hypothalamus-html --shape --outlier
