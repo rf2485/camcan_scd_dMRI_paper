@@ -6,9 +6,8 @@
 *.txt
 *.docx
 *.pptx
-dtifit
-dwi_preprocessing
 diff_model_fit
-tbss
+dwi_preprocessing
 recon-all-clinical
-recon_qc
+roi_diff_means
+tbss

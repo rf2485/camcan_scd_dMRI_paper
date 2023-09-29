@@ -130,9 +130,6 @@ fig1FA
 fig1 <- add_slide(fig1)
 fig1 <- ph_with(x = fig1, fig1FA, location = ph_location_type(type = "body"))
 
-# -------------------------------------------------------------------------
-
-
 MD_scd_story <- lm(mean_MD_r_lower_cingulum_mask ~ story_d * cohort, df_MD)
 summary(MD_scd_story)
 ctl_MD_story <- lm(mean_MD_r_lower_cingulum_mask ~ story_d, ctl_MD)
@@ -837,7 +834,43 @@ fig5OD
 fig5 <- add_slide(fig5)
 fig5 <- ph_with(x = fig5, fig5OD, location = ph_location_type(type = "body"))
 
-# -------------------------------------------------------------------------
-
-
 print(fig5, target='fig5.pptx')
+
+################################### thickness-diffusion interaction plots ###########################
+fig6 <- read_pptx()
+layout_summary(fig6)
+
+FA_scd_rento <- lm(mean_FA_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_FA)
+summary(FA_scd_story)
+ctl_FA_rento <- lm(mean_FA_r_lower_cingulum_mask ~ rh_entorhinal, ctl_FA)
+scd_FA_rento <- lm(mean_FA_r_lower_cingulum_mask ~ rh_entorhinal, scd_FA)
+fig6FA <- interact_plot(FA_scd_rento, pred = rh_entorhinal, modx = cohort, 
+                        plot.points = T, interval = T, point.alpha = 1, vary.lty = F,
+                        modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+  theme(legend.position = 'none') +
+  labs(x = "Right Entorhinal Cortical Thickness", y = "Mean FA", title = "Bilateral Mean FA",
+       subtitle = paste0(
+         "interaction p = ",
+         signif(summary(FA_scd_rento)$coefficients[4,4], 2)
+       )
+  ) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+                    label = paste0(
+                      "p = ", signif(summary(ctl_FA_rento)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_FA_rento)$adj.r.squared, 2)),
+                    color = "Control"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
+                    label = paste0(
+                      "p = ", signif(summary(scd_FA_rento)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(scd_FA_rento)$adj.r.squared, 2)),
+                    color = "SCD"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+fig6FA
+fig6 <- add_slide(fig6)
+fig6 <- ph_with(x = fig6, fig6FA, location = ph_location_type(type = "body"))

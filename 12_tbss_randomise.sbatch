@@ -10,7 +10,7 @@ metric_list=(FA MD RD L1 ISOVF ICVF OD)
 metric_num=$(($SLURM_ARRAY_TASK_ID-1))
 metric=${metric_list[$metric_num]}
 
-module load condaenvs/gpu/fsl605
+module load fsl/.6.0.6
 cd tbss/stats
 mkdir $metric/
 
