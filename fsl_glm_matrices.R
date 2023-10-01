@@ -26,8 +26,8 @@ write.table(scd_story_con, file = "tbss/stats/scd_story_con.txt", sep = "\t",
 
 #model 2: scd and age interaction
 scd_age_mat <- design_matrix %>% select(EV1, EV2, EV3) %>%
-  mutate(EV4 = ifelse(EV1 == 1, EV3, 0),
-         EV3 = ifelse(EV1 == 0, EV3, 0))
+  mutate(EV3 = ifelse(EV1 == 1, EV3, 0),
+         EV4 = ifelse(EV1 == 0, EV3, 0))
 
 scd_age_mat <- unname(as.matrix(scd_age_mat))
 write.table(scd_age_mat, file = "tbss/stats/scd_age_mat.txt", sep = "\t", 

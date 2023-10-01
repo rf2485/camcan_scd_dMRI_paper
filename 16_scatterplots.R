@@ -4,6 +4,8 @@ library(interactions)
 library(officer)
 library(ggtext)
 
+######################### data preparation #####################################
+#define remove_outliers function
 remove_outliers <- function(x, na.rm = TRUE) 
 {
   ## Find 25% and 75% Quantiles using inbuild function
@@ -22,27 +24,42 @@ remove_outliers <- function(x, na.rm = TRUE)
   y
 }
 
-#read in ROI means
-scd_table <- read_csv('roi_diff_means/scd_means_table.csv')
-scd_table$cohort <- 'scd'
+#read in data for SCD
+scd_diff_means <- read_csv('roi_diff_means/scd_table.csv')
+scd_cog_demo <- read.delim('dwi_over_55_scd.tsv', tryLogical=F, na.strings = c("NA", "NaN"))
+#combine diffusion means with cognitive and demographics data
+scd_table <- cbind(scd_diff_means, scd_cog_demo)
+#remove 'scd_' suffix from column names
 names(scd_table) <- sub('scd_', '', names(scd_table))
-ctl_table <- read_csv("roi_diff_means/ctl_means_table.csv")
-ctl_table$cohort <- 'ctl'
+
+#read in data for controls
+ctl_diff_means <- read_csv("roi_diff_means/ctl_table.csv")
+ctl_cog_demo <- read.delim('dwi_over_55_ctl.tsv', tryLogical = F, na.strings = c("NA", "NaN"))
+#combine diffusion means with cognitive and demographics data
+ctl_table <- cbind(ctl_diff_means, ctl_cog_demo)
+#remove 'ctl_' suffix from column names
 names(ctl_table) <- sub('ctl_', '', names(ctl_table))
+
+#combine SCD and control rows
 df <- rbind(ctl_table, scd_table)
-duplicated_columns <- duplicated(colnames(df))
-df <- df[!duplicated_columns]
-df <- df %>% relocate(cohort, .after = last_col())
 
-#add age and story
-age_story_mat <- read_tsv("tbss/stats/age_story_mat.txt", col_names = F)
-df$age <- age_story_mat$X2
-df$story_d <- age_story_mat$X3
+#add cortical volumes and thickness
+volumes_thickness <- read_csv("volumes_thickness.csv") %>%
+  select(-SCD) #remove duplicate non-id column
+df <- left_join(df, volumes_thickness, by='participant_id')
+#generate cohort factor column from SCD column
+df <- df %>%
+  mutate(cohort = ifelse(SCD == 1, 'scd', 'ctl'), #makes data more readable
+         story_d = scale(homeint_storyrecall_d, scale = F), #mean center for consistency with TBSS
+         age = scale(age, scale = F)) #mean center for consistency with TBSS
+#move participant_id and cohort to beginning of df
+df <- df %>% select(participant_id, cohort, SCD, age, story_d, everything())
 
-#drop diffusion outliers (assume this is an image quality issue)
+#drop diffusion outliers (assume this is an image quality issue, already done for anatomical)
 df_FA <- df 
 df_FA$mean_FA_lower_cingulum_mask <- remove_outliers(df$mean_FA_lower_cingulum_mask)
 df_FA <- df_FA %>% drop_na(mean_FA_lower_cingulum_mask)
+#split into groups of interest
 ctl_FA <- df_FA %>% filter(cohort == 'ctl')
 scd_FA <- df_FA %>% filter(cohort == 'scd')
 upper_story_FA <- df_FA %>% filter(story_d > 0)
@@ -90,7 +107,164 @@ scd_OD <- df_OD %>% filter(cohort == 'scd')
 upper_story_OD <- df_OD %>% filter(story_d > 0)
 lower_story_OD <- df_OD %>% filter(story_d < 0)
 
+######################## scd-thickness interaction scatterplots ##################
+FA_scd_l_ento <- lm(mean_FA_l_lower_cingulum ~ lh_entorhinal * cohort, df_FA)
+summary(FA_scd_l_ento)
+# FA_l_ento <- lm(mean_FA_l_lower_cingulum ~ lh_entorhinal, df_FA)
+# summary(FA_l_ento)
+ggplot(df_FA, aes(lh_entorhinal, mean_FA_l_lower_cingulum)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+MD_scd_l_ento <- lm(mean_MD_l_lower_cingulum ~ lh_entorhinal * cohort, df_MD)
+summary(MD_scd_l_ento)
+# MD_l_ento <- lm(mean_MD_l_lower_cingulum ~ lh_entorhinal, df_MD)
+# summary(MD_l_ento)
+# ggplot(df_MD, aes(lh_entorhinal, mean_MD_l_lower_cingulum)) +
+#   geom_point() +
+#   geom_smooth(method = 'lm', formula = y ~ x) +
+#   stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+L1_scd_l_ento <- lm(mean_L1_l_lower_cingulum ~ lh_entorhinal * cohort, df_L1)
+summary(L1_scd_l_ento)
+# L1_l_ento <- lm(mean_L1_l_lower_cingulum ~ lh_entorhinal, df_L1)
+# summary(L1_l_ento)
+RD_scd_l_ento <- lm(mean_RD_l_lower_cingulum ~ lh_entorhinal * cohort, df_RD)
+summary(RD_scd_l_ento)
+# RD_l_ento <- lm(mean_RD_l_lower_cingulum ~ lh_entorhinal, df_RD)
+# summary(RD_l_ento)
+ggplot(df_RD, aes(lh_entorhinal, mean_RD_l_lower_cingulum)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+OD_scd_l_ento <- lm(mean_OD_l_lower_cingulum ~ lh_entorhinal * cohort, df_OD)
+summary(OD_scd_l_ento)
+# OD_l_ento <- lm(mean_OD_l_lower_cingulum ~ lh_entorhinal, df_OD)
+# summary(OD_l_ento)
+# ggplot(df_OD, aes(lh_entorhinal, mean_OD_l_lower_cingulum)) +
+#   geom_point() +
+#   geom_smooth(method = 'lm', formula = y ~ x) +
+#   stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+ICVF_scd_l_ento <- lm(mean_ICVF_l_lower_cingulum ~ lh_entorhinal * cohort, df_ICVF)
+summary(ICVF_scd_l_ento)
+# ICVF_l_ento <- lm(mean_ICVF_l_lower_cingulum ~ lh_entorhinal, df_ICVF)
+# summary(ICVF_l_ento)
+ISOVF_scd_l_ento <- lm(mean_ISOVF_l_lower_cingulum ~ lh_entorhinal * cohort, df_ISOVF)
+summary(ISOVF_scd_l_ento)
+# ISOVF_l_ento <- lm(mean_ISOVF_l_lower_cingulum ~ lh_entorhinal, df_ISOVF)
+# summary(ISOVF_l_ento)
+
+FA_scd_r_ento <- lm(mean_FA_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_FA)
+summary(FA_scd_r_ento)
+# FA_r_ento <- lm(mean_FA_r_lower_cingulum_mask ~ rh_entorhinal, df_FA)
+# summary(FA_r_ento)
+ggplot(df_FA, aes(rh_entorhinal, mean_FA_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+MD_scd_r_ento <- lm(mean_MD_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_MD)
+summary(MD_scd_r_ento)
+# MD_r_ento <- lm(mean_MD_r_lower_cingulum_mask ~ rh_entorhinal, df_MD)
+# summary(MD_r_ento)
+ggplot(df_MD, aes(rh_entorhinal, mean_MD_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+L1_scd_r_ento <- lm(mean_L1_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_L1)
+summary(L1_scd_r_ento)
+# L1_r_ento <- lm(mean_L1_r_lower_cingulum_mask ~ rh_entorhinal, df_L1)
+# summary(L1_r_ento)
+ggplot(df_L1, aes(rh_entorhinal, mean_L1_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+RD_scd_r_ento <- lm(mean_RD_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_RD)
+summary(RD_scd_r_ento)
+# RD_r_ento <- lm(mean_RD_r_lower_cingulum_mask ~ rh_entorhinal, df_RD)
+# summary(RD_r_ento)
+ggplot(df_RD, aes(rh_entorhinal, mean_RD_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+OD_scd_r_ento <- lm(mean_OD_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_OD)
+summary(OD_scd_r_ento)
+# OD_r_ento <- lm(mean_OD_r_lower_cingulum_mask ~ rh_entorhinal, df_OD)
+# summary(OD_r_ento)
+ggplot(df_OD, aes(rh_entorhinal, mean_OD_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+ICVF_scd_r_ento <- lm(mean_ICVF_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_ICVF)
+summary(ICVF_scd_r_ento)
+# ICVF_r_ento <- lm(mean_ICVF_r_lower_cingulum_mask ~ rh_entorhinal, df_ICVF)
+# summary(ICVF_r_ento)
+ISOVF_scd_r_ento <- lm(mean_ISOVF_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_ISOVF)
+summary(ISOVF_scd_r_ento)
+# ISOVF_r_ento <- lm(mean_ISOVF_r_lower_cingulum_mask ~ rh_entorhinal, df_ISOVF)
+# summary(ISOVF_r_ento)
+ggplot(df_ISOVF, aes(rh_entorhinal, mean_ISOVF_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+
+FA_scd_r_temppole <- lm(mean_FA_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_FA)
+summary(FA_scd_r_temppole)
+# FA_r_temppole <- lm(mean_FA_r_lower_cingulum_mask ~ rh_temporalpole, df_FA)
+# summary(FA_r_temppole)
+ggplot(df_FA, aes(rh_temporalpole, mean_FA_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+MD_scd_r_temppole <- lm(mean_MD_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_MD)
+summary(MD_scd_r_temppole)
+# MD_r_temppole <- lm(mean_MD_r_lower_cingulum_mask ~ rh_temporalpole, df_MD)
+# summary(MD_r_temppole)
+ggplot(df_MD, aes(rh_temporalpole, mean_MD_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+L1_scd_r_temppole <- lm(mean_L1_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_L1)
+summary(L1_scd_r_temppole)
+# L1_r_temppole <- lm(mean_L1_r_lower_cingulum_mask ~ rh_temporalpole, df_L1)
+# summary(L1_r_temppole)
+ggplot(df_L1, aes(rh_temporalpole, mean_L1_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+RD_scd_r_temppole <- lm(mean_RD_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_RD)
+summary(RD_scd_r_temppole)
+# RD_r_temppole <- lm(mean_RD_r_lower_cingulum_mask ~ rh_temporalpole, df_RD)
+# summary(RD_r_temppole)
+ggplot(df_RD, aes(rh_temporalpole, mean_RD_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+OD_scd_r_temppole <- lm(mean_OD_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_OD)
+summary(OD_scd_r_temppole)
+# OD_r_temppole <- lm(mean_OD_r_lower_cingulum_mask ~ rh_temporalpole, df_OD)
+# summary(OD_r_temppole)
+# ggplot(df_OD, aes(rh_temporalpole, mean_OD_r_lower_cingulum_mask)) +
+#   geom_point() +
+#   geom_smooth(method = 'lm', formula = y ~ x) +
+#   stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+ICVF_scd_r_temppole <- lm(mean_ICVF_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_ICVF)
+summary(ICVF_scd_r_temppole)
+ISOVF_scd_r_temppole <- lm(mean_ISOVF_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_ISOVF)
+summary(ISOVF_scd_r_temppole)
+
 ######################## scd-story interaction scatterplots #################################################
+l_ento_scd_story <- lm(lh_entorhinal ~ story_d * cohort, df)
+summary(l_ento_scd_story)
+l_ento_story <- lm(lh_entorhinal ~ story_d, df)
+summary(l_ento_story)
+r_ento_scd_story <- lm(rh_entorhinal ~ story_d * cohort, df)
+summary(r_ento_scd_story)
+r_ento_story <- lm(rh_entorhinal ~ story_d, df)
+summary(r_ento_story)
+r_temppole_scd_story <- lm(rh_temporalpole ~ story_d * cohort, df)
+summary(r_temppole_scd_story)
+r_temppole_story <- lm(rh_temporalpole ~ story_d, df)
+summary(r_temppole_story)
+
 fig1 <- read_pptx()
 layout_summary(fig1)
 #device size 6.80x4.86 inches
@@ -167,6 +341,8 @@ fig1 <- ph_with(x = fig1, fig1MD, location = ph_location_type(type = "body"))
 
 L1_scd_story <- lm(mean_L1_r_lower_cingulum_mask ~ story_d * cohort, df_L1)
 summary(L1_scd_story)
+L1_story <- lm(mean_L1_r_lower_cingulum_mask ~ story_d, df_L1)
+summary(L1_story)
 ctl_L1_story <- lm(mean_L1_r_lower_cingulum_mask ~ story_d, ctl_L1)
 scd_L1_story <- lm(mean_L1_r_lower_cingulum_mask ~ story_d, scd_L1)
 fig1L1 <- interact_plot(L1_scd_story, pred = story_d, modx = cohort, 
@@ -239,8 +415,8 @@ summary(ISOVF_scd_story)
 ctl_ISOVF_story <- lm(mean_ISOVF_r_lower_cingulum_mask ~ story_d, ctl_ISOVF)
 scd_ISOVF_story <- lm(mean_ISOVF_r_lower_cingulum_mask ~ story_d, scd_ISOVF)
 fig1ISOVF <- interact_plot(ISOVF_scd_story, pred = story_d, modx = cohort, 
-                        plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
-                        modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+                           plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+                           modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
   theme(legend.position = 'none') +
   labs(x = "Story Delayed Recall", y = "Mean FWVF", title = "Right Mean FWVF",
        subtitle = paste0(
@@ -274,8 +450,8 @@ summary(ICVF_scd_story)
 ctl_ICVF_story <- lm(mean_ICVF_r_lower_cingulum_mask ~ story_d, ctl_ICVF)
 scd_ICVF_story <- lm(mean_ICVF_r_lower_cingulum_mask ~ story_d, scd_ICVF)
 fig1ICVF <- interact_plot(ICVF_scd_story, pred = story_d, modx = cohort, 
-                           plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
-                           modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+                          plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+                          modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
   theme(legend.position = 'none') +
   labs(x = "Story Delayed Recall", y = "Mean IC", title = "Right Mean IC",
        subtitle = paste0(
@@ -309,8 +485,8 @@ summary(OD_scd_story)
 ctl_OD_story <- lm(mean_OD_r_lower_cingulum_mask ~ story_d, ctl_OD)
 scd_OD_story <- lm(mean_OD_r_lower_cingulum_mask ~ story_d, scd_OD)
 fig1OD <- interact_plot(OD_scd_story, pred = story_d, modx = cohort, 
-                           plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
-                           modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+                        plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+                        modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
   theme(legend.position = 'none') +
   labs(x = "Story Delayed Recall", y = "Mean OD", title = "Right Mean OD",
        subtitle = paste0(
@@ -342,6 +518,31 @@ fig1 <- ph_with(x = fig1, fig1OD, location = ph_location_type(type = "body"))
 print(fig1, target='fig1.pptx')
 
 ################################### scd-age interaction scatterplots ########################################## 
+l_ento_scd_age <- lm(lh_entorhinal ~ age * cohort, df)
+summary(l_ento_scd_age)
+l_ento_age <- lm(lh_entorhinal ~ age, df)
+summary(l_ento_age)
+ggplot(df, aes(age, rh_entorhinal, color=cohort)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+r_ento_scd_age <- lm(rh_entorhinal ~ age * cohort, df)
+summary(r_ento_scd_age)
+r_ento_age <- lm(rh_entorhinal ~ age, df)
+summary(r_ento_age)
+ggplot(df, aes(age, rh_entorhinal, color = cohort)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+r_temppole_scd_age <- lm(rh_temporalpole ~ age * cohort, df)
+summary(r_temppole_scd_age)
+r_temppole_age <- lm(rh_temporalpole ~ age, df)
+summary(r_temppole_age)
+ggplot(df, aes(age, rh_temporalpole, color = cohort)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+
 fig3 <- read_pptx()
 layout_summary(fig3)
 
@@ -485,10 +686,10 @@ fig3RD
 fig3 <- add_slide(fig3)
 fig3 <- ph_with(x = fig3, fig3RD, location = ph_location_type(type = "body"))
 
-ISOVF_scd_age <- lm(mean_ISOVF_lower_cingulum_mask ~ age * cohort, df_ISOVF)
+ISOVF_scd_age <- lm(mean_ISOVF_r_lower_cingulum_mask ~ age * cohort, df_ISOVF)
 summary(ISOVF_scd_age)
-ctl_ISOVF_age <- lm(mean_ISOVF_lower_cingulum_mask ~ age, ctl_ISOVF)
-scd_ISOVF_age <- lm(mean_ISOVF_lower_cingulum_mask ~ age, scd_ISOVF)
+ctl_ISOVF_age <- lm(mean_ISOVF_r_lower_cingulum_mask ~ age, ctl_ISOVF)
+scd_ISOVF_age <- lm(mean_ISOVF_r_lower_cingulum_mask ~ age, scd_ISOVF)
 fig3ISOVF <- interact_plot(ISOVF_scd_age, pred = age, modx = cohort, 
                            plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
                            modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
@@ -593,6 +794,13 @@ fig3 <- ph_with(x = fig3, fig3OD, location = ph_location_type(type = "body"))
 print(fig3, target='fig3.pptx')
 
 ########################################################### age-story interaction plots ##############################################
+l_ento_story_age <- lm(lh_entorhinal ~ story_d * age, df)
+summary(l_ento_story_age)
+r_ento_story_age <- lm(rh_entorhinal ~ story_d * age, df)
+summary(r_ento_story_age)
+r_temppole_story_age <- lm(rh_temporalpole ~ story_d * age, df)
+summary(r_temppole_story_age)
+
 fig5 <- read_pptx()
 layout_summary(fig5)
 
@@ -738,8 +946,8 @@ upper_story_ISOVF_age <- lm(mean_ISOVF_lower_cingulum_mask ~ story_d, upper_stor
 lower_story_ISOVF_age <- lm(mean_ISOVF_lower_cingulum_mask ~ story_d, lower_story_ISOVF)
 
 fig5ISOVF <- interact_plot(ISOVF_story_age, pred = age, modx = story_d, modx.values = "plus-minus", 
-                        plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
-                        legend.main = 'Delayed Story Recall Score'
+                           plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+                           legend.main = 'Delayed Story Recall Score'
 ) +
   theme(legend.position = 'none') +
   labs(x = "Mean Centered Age", y = "Mean FWVF", title = "Bilateral Mean FWVF",
@@ -772,8 +980,8 @@ upper_story_ICVF_age <- lm(mean_ICVF_lower_cingulum_mask ~ story_d, upper_story_
 lower_story_ICVF_age <- lm(mean_ICVF_lower_cingulum_mask ~ story_d, lower_story_ICVF)
 
 fig5ICVF <- interact_plot(ICVF_story_age, pred = age, modx = story_d, modx.values = "plus-minus", 
-                           plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
-                           legend.main = 'Delayed Story Recall Score'
+                          plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+                          legend.main = 'Delayed Story Recall Score'
 ) +
   theme(legend.position = 'none') +
   labs(x = "Mean Centered Age", y = "Mean ICVF", title = "Bilateral Mean ICVF",
@@ -806,8 +1014,8 @@ upper_story_OD_age <- lm(mean_OD_lower_cingulum_mask ~ story_d, upper_story_OD)
 lower_story_OD_age <- lm(mean_OD_lower_cingulum_mask ~ story_d, lower_story_OD)
 
 fig5OD <- interact_plot(OD_story_age, pred = age, modx = story_d, modx.values = "plus-minus", 
-                           plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
-                           legend.main = 'Delayed Story Recall Score'
+                        plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+                        legend.main = 'Delayed Story Recall Score'
 ) +
   theme(legend.position = 'none') +
   labs(x = "Mean Centered Age", y = "Mean OD", title = "Bilateral Mean OD",
@@ -835,42 +1043,3 @@ fig5 <- add_slide(fig5)
 fig5 <- ph_with(x = fig5, fig5OD, location = ph_location_type(type = "body"))
 
 print(fig5, target='fig5.pptx')
-
-################################### thickness-diffusion interaction plots ###########################
-fig6 <- read_pptx()
-layout_summary(fig6)
-
-FA_scd_rento <- lm(mean_FA_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_FA)
-summary(FA_scd_story)
-ctl_FA_rento <- lm(mean_FA_r_lower_cingulum_mask ~ rh_entorhinal, ctl_FA)
-scd_FA_rento <- lm(mean_FA_r_lower_cingulum_mask ~ rh_entorhinal, scd_FA)
-fig6FA <- interact_plot(FA_scd_rento, pred = rh_entorhinal, modx = cohort, 
-                        plot.points = T, interval = T, point.alpha = 1, vary.lty = F,
-                        modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
-  theme(legend.position = 'none') +
-  labs(x = "Right Entorhinal Cortical Thickness", y = "Mean FA", title = "Bilateral Mean FA",
-       subtitle = paste0(
-         "interaction p = ",
-         signif(summary(FA_scd_rento)$coefficients[4,4], 2)
-       )
-  ) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
-                    label = paste0(
-                      "p = ", signif(summary(ctl_FA_rento)$coefficients[2,4], 2),
-                      # "p < 0.001",
-                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_FA_rento)$adj.r.squared, 2)),
-                    color = "Control"), show.legend = F,
-                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
-                    label = paste0(
-                      "p = ", signif(summary(scd_FA_rento)$coefficients[2,4], 2),
-                      # "p < 0.001",
-                      ", adj-R<sup>2</sup> = ", signif(summary(scd_FA_rento)$adj.r.squared, 2)),
-                    color = "SCD"), show.legend = F,
-                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5))
-fig6FA
-fig6 <- add_slide(fig6)
-fig6 <- ph_with(x = fig6, fig6FA, location = ph_location_type(type = "body"))

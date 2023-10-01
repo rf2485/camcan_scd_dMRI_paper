@@ -1,4 +1,3 @@
-#!/bin/bash
 #SBATCH --mail-user=rf2485@nyulangone.org
 #SBATCH --mail-type=ALL
 #SBATCH --ntasks=1
@@ -7,9 +6,39 @@
 #SBATCH --mem=64G
 #SBATCH --time=3-00:00:00
 
+module load fsl/6.0.4
+mkdir tbss
+mkdir tbss/MD
+mkdir tbss/RD
+mkdir tbss/L1
+mkdir tbss/ICVF
+mkdir tbss/ISOVF
+mkdir tbss/OD
+  
+for j in $(cut -f1 dwi_over_55_ctl.tsv); do
+  cp diff_model_fit/$j/dti_FA.nii.gz tbss/ctl_${j}.nii.gz
+  cp diff_model_fit/$j/dti_MD.nii.gz tbss/MD/ctl_${j}.nii.gz
+  cp diff_model_fit/$j/dti_RD.nii.gz tbss/RD/ctl_${j}.nii.gz
+  cp diff_model_fit/$j/dti_L1.nii.gz tbss/L1/ctl_${j}.nii.gz
+  cp diff_model_fit/$j/FIT_ICVF.nii.gz tbss/ICVF/ctl_${j}.nii.gz
+  cp diff_model_fit/$j/FIT_ISOVF.nii.gz tbss/ISOVF/ctl_${j}.nii.gz
+  cp diff_model_fit/$j/FIT_OD.nii.gz tbss/OD/ctl_${j}.nii.gz
+done
+
+for j in $(cut -f1 dwi_over_55_scd.tsv); do
+  cp diff_model_fit/$j/dti_FA.nii.gz tbss/scd_${j}.nii.gz
+  cp diff_model_fit/$j/dti_MD.nii.gz tbss/MD/scd_${j}.nii.gz
+  cp diff_model_fit/$j/dti_RD.nii.gz tbss/RD/scd_${j}.nii.gz
+  cp diff_model_fit/$j/dti_L1.nii.gz tbss/L1/scd_${j}.nii.gz
+  cp diff_model_fit/$j/FIT_ICVF.nii.gz tbss/ICVF/scd_${j}.nii.gz
+  cp diff_model_fit/$j/FIT_ISOVF.nii.gz tbss/ISOVF/scd_${j}.nii.gz
+  cp diff_model_fit/$j/FIT_OD.nii.gz tbss/OD/scd_${j}.nii.gz
+done
+
 cd tbss
-module load fsl/.6.0.6
-export LD_LIBRARY_PATH=/lib
+# using fsl
+module load fsl/6.0.4
+tbss_1_preproc *.nii.gz
 
 tbss_2_reg -T
 tbss_3_postreg -S
@@ -19,29 +48,3 @@ non_FA_list=( MD RD L1 ICVF ISOVF OD )
 for metric in ${non_FA_list[@]}; do
   tbss_non_FA ${metric}
 done
-
-# cd stats/
-# design_ttest2 design 198 127
-# cp $FSL_DIR/data/atlases/JHU/JHU-ICBM-labels-1mm.nii.gz .
-# fslmaths JHU-ICBM-labels-1mm.nii.gz -thr 37 -uthr 38 -bin lower_cingulum_mask.nii.gz
-
-# metric_list=( FA MD RD L1 ICVF ISOVF OD )
-# for metric in ${metric_list[@]}; do
-#   mkdir -p ../../roi_diff_means/$metric
-#   cp all_${metric}.nii.gz ../../roi_diff_means
-#   cd ../../roi_diff_means/
-#   fslsplit all_${metric}.nii.gz ${metric}_ -t
-#   find . -name ${metric}_0*.nii.gz | head -n 198 | xargs -d $'\n' mv -t $metric/
-#   #mv -- ${metric}_0*.nii.gz([1,198]) ${metric}/
-#   cd $metric
-#
-#   for f in ${metric}_0*.nii.gz; do
-#     mv "$f" "ctl_$f"
-#   done
-#
-#   cd ../
-#   for f in ${metric}_0*.nii.gz; do
-#     mv "$f" "${metric}/scd_${f}"
-#   done
-#   cd ../tbss/stats/
-# done

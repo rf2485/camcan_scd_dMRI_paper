@@ -2,6 +2,25 @@
 library(tidyverse)
 library(arsenal)
 
+#define remove_outliers function
+remove_outliers <- function(x, na.rm = TRUE) 
+{
+  ## Find 25% and 75% Quantiles using inbuild function
+  quant <- quantile(x, probs=c(.25, .75), na.rm = na.rm)
+  
+  ## Find Interquantile range and multiply it by 1.5 
+  ## to derive factor for range calculation
+  H <- 1.5 * IQR(x, na.rm = na.rm)
+  
+  y <- x
+  
+  ## fill the outlier elements with NA
+  y[x < (quant[1] - H)] <- NA
+  y[x > (quant[2] + H)] <- NA
+  
+  y
+}
+
 #import aseg stats table (gray matter volumes)
 aseg = read_tsv("recon-all-clinical/asegtable.tsv") %>%
   rename(participant_id=`Measure:volume`) %>%
@@ -49,7 +68,12 @@ failed_qc <- c('sub-CC510255', #abnormality in left temporal pole
 )
 #join volumes and thickness tables
 volumes_thickness <- left_join(thickness, volumes) %>%
-  filter(!participant_id %in% failed_qc) #remove rows that failed QC
+  filter(!participant_id %in% failed_qc) %>% #remove rows that failed QC
+  mutate(across(where(is.double), remove_outliers)) #remove outliers (change to NA)
+  
+#save to file
+write_csv(volumes_thickness, 'volumes_thickness.csv')
+
 volumes_thickness$SCD <- factor(volumes_thickness$SCD, #change SCD column into factor type
                                 levels = c(1, 0),
                                 labels = c('SCD', 'Control'))

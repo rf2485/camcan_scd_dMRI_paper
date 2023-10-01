@@ -5,9 +5,9 @@ cd tbss/stats
 
 for metric in "${metric_list[@]}"; do
   for test in "${test_list[@]}"; do
-    fsleyes -std1mm lower_cingulum_mask -cm green \
+    fsleyes -std1mm all_${metric} lower_cingulum_mask -cm green \
       ${metric}/${metric}_lc_${test}_tfce_corrp_tstat1 -cm red-yellow -dr 0.949 1 \
-        ${metric}/${metric}_lc_${test}_tfce_corrp_tstat1 -cm blue-lightblue -dr 0.949 1 \
-          all_${metric}.nii.gz
+        ${metric}/${metric}_lc_${test}_tfce_corrp_tstat2 -cm blue-lightblue -dr 0.949 1 \
+          
   done
 done
