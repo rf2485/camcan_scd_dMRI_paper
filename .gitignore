@@ -11,3 +11,6 @@ dwi_preprocessing
 recon-all-clinical
 roi_diff_means
 tbss
+archive
+jhu2diff*
+roi_subj_space*

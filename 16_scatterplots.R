@@ -115,7 +115,8 @@ summary(FA_scd_l_ento)
 ggplot(df_FA, aes(lh_entorhinal, mean_FA_l_lower_cingulum)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 MD_scd_l_ento <- lm(mean_MD_l_lower_cingulum ~ lh_entorhinal * cohort, df_MD)
 summary(MD_scd_l_ento)
 # MD_l_ento <- lm(mean_MD_l_lower_cingulum ~ lh_entorhinal, df_MD)
@@ -135,7 +136,8 @@ summary(RD_scd_l_ento)
 ggplot(df_RD, aes(lh_entorhinal, mean_RD_l_lower_cingulum)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 OD_scd_l_ento <- lm(mean_OD_l_lower_cingulum ~ lh_entorhinal * cohort, df_OD)
 summary(OD_scd_l_ento)
 # OD_l_ento <- lm(mean_OD_l_lower_cingulum ~ lh_entorhinal, df_OD)
@@ -160,7 +162,8 @@ summary(FA_scd_r_ento)
 ggplot(df_FA, aes(rh_entorhinal, mean_FA_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 MD_scd_r_ento <- lm(mean_MD_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_MD)
 summary(MD_scd_r_ento)
 # MD_r_ento <- lm(mean_MD_r_lower_cingulum_mask ~ rh_entorhinal, df_MD)
@@ -168,7 +171,8 @@ summary(MD_scd_r_ento)
 ggplot(df_MD, aes(rh_entorhinal, mean_MD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 L1_scd_r_ento <- lm(mean_L1_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_L1)
 summary(L1_scd_r_ento)
 # L1_r_ento <- lm(mean_L1_r_lower_cingulum_mask ~ rh_entorhinal, df_L1)
@@ -176,7 +180,8 @@ summary(L1_scd_r_ento)
 ggplot(df_L1, aes(rh_entorhinal, mean_L1_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 RD_scd_r_ento <- lm(mean_RD_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_RD)
 summary(RD_scd_r_ento)
 # RD_r_ento <- lm(mean_RD_r_lower_cingulum_mask ~ rh_entorhinal, df_RD)
@@ -184,7 +189,8 @@ summary(RD_scd_r_ento)
 ggplot(df_RD, aes(rh_entorhinal, mean_RD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 OD_scd_r_ento <- lm(mean_OD_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_OD)
 summary(OD_scd_r_ento)
 # OD_r_ento <- lm(mean_OD_r_lower_cingulum_mask ~ rh_entorhinal, df_OD)
@@ -192,7 +198,8 @@ summary(OD_scd_r_ento)
 ggplot(df_OD, aes(rh_entorhinal, mean_OD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 ICVF_scd_r_ento <- lm(mean_ICVF_r_lower_cingulum_mask ~ rh_entorhinal * cohort, df_ICVF)
 summary(ICVF_scd_r_ento)
 # ICVF_r_ento <- lm(mean_ICVF_r_lower_cingulum_mask ~ rh_entorhinal, df_ICVF)
@@ -204,7 +211,8 @@ summary(ISOVF_scd_r_ento)
 ggplot(df_ISOVF, aes(rh_entorhinal, mean_ISOVF_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 
 FA_scd_r_temppole <- lm(mean_FA_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_FA)
 summary(FA_scd_r_temppole)
@@ -213,7 +221,8 @@ summary(FA_scd_r_temppole)
 ggplot(df_FA, aes(rh_temporalpole, mean_FA_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 MD_scd_r_temppole <- lm(mean_MD_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_MD)
 summary(MD_scd_r_temppole)
 # MD_r_temppole <- lm(mean_MD_r_lower_cingulum_mask ~ rh_temporalpole, df_MD)
@@ -221,7 +230,8 @@ summary(MD_scd_r_temppole)
 ggplot(df_MD, aes(rh_temporalpole, mean_MD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 L1_scd_r_temppole <- lm(mean_L1_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_L1)
 summary(L1_scd_r_temppole)
 # L1_r_temppole <- lm(mean_L1_r_lower_cingulum_mask ~ rh_temporalpole, df_L1)
@@ -229,7 +239,8 @@ summary(L1_scd_r_temppole)
 ggplot(df_L1, aes(rh_temporalpole, mean_L1_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 RD_scd_r_temppole <- lm(mean_RD_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_RD)
 summary(RD_scd_r_temppole)
 # RD_r_temppole <- lm(mean_RD_r_lower_cingulum_mask ~ rh_temporalpole, df_RD)
@@ -237,7 +248,8 @@ summary(RD_scd_r_temppole)
 ggplot(df_RD, aes(rh_temporalpole, mean_RD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right")
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  theme_bw()
 OD_scd_r_temppole <- lm(mean_OD_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df_OD)
 summary(OD_scd_r_temppole)
 # OD_r_temppole <- lm(mean_OD_r_lower_cingulum_mask ~ rh_temporalpole, df_OD)

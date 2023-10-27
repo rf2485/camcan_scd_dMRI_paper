@@ -12,8 +12,10 @@ design_matrix$EV3 <- scale(design_matrix$EV3, scale = F)
 design_matrix$EV4 <- scale(design_matrix$EV4, scale = F)
 
 #model 1: scd and story interaction
-scd_story_mat <- design_matrix %>% select(EV1, EV2, EV4) %>%
-  mutate(EV3 = ifelse(EV1 == 1, EV4, 0),
+scd_story_mat <- design_matrix %>% select(EV1, EV2, EV4) #%>%
+scd_story_mat$EV3 <- scd_story_mat$EV4
+scd_story_mat <- scd_story_mat %>% 
+  mutate(EV3 = ifelse(EV1 == 1, EV3, 0),
          EV4 = ifelse(EV1 == 0, EV4, 0)) %>%
   select(order(colnames(.))) #order columns alphabetically
 
@@ -25,9 +27,11 @@ write.table(scd_story_con, file = "tbss/stats/scd_story_con.txt", sep = "\t",
             row.names = F, col.names = F)
 
 #model 2: scd and age interaction
-scd_age_mat <- design_matrix %>% select(EV1, EV2, EV3) %>%
+scd_age_mat <- design_matrix %>% select(EV1, EV2, EV3) #%>%
+scd_age_mat$EV4 <- scd_age_mat$EV3
+scd_age_mat <- scd_age_mat %>%  
   mutate(EV3 = ifelse(EV1 == 1, EV3, 0),
-         EV4 = ifelse(EV1 == 0, EV3, 0))
+         EV4 = ifelse(EV1 == 0, EV4, 0))
 
 scd_age_mat <- unname(as.matrix(scd_age_mat))
 write.table(scd_age_mat, file = "tbss/stats/scd_age_mat.txt", sep = "\t", 
