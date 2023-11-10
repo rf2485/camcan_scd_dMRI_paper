@@ -4,6 +4,7 @@
 #SBATCH --time=1:00:00
 #SBATCH --mem=8G
 #SBATCH --array=1-325
+#SBATCH -o ./slurm_output/7_dwi_preproc/slurm-%A_%a.out
 
 dirS=/gpfs/data/lazarlab/CamCan995/raw/
 #
@@ -28,8 +29,9 @@ mrcalc ${j}_dwi.nii.gz dwi_denoised.nii -subtract dwi_residuals.nii
 mrdegibbs dwi_denoised.nii dwi_degibbs.nii
 
 mcflirt -in dwi_degibbs.nii -out dwi_corr.nii.gz
-fslroi dwi_corr.nii.gz b0 0 1 #pull b0 image from corrected dwi
+fslroi dwi_corr.nii.gz b0 0 2 #pull b0 images from corrected dwi
 fslmaths b0.nii.gz -Tmean b0_mean.nii.gz #mean across time
 bet b0_mean b0_brain -f 0.2 -g 0 -n -m #generate brain mask
+fslmaths b0_brain_mask -dilD -fillh b0_brain_mask
 cd ../..
 
