@@ -1,4 +1,3 @@
-module load fsl/6.0.4
 mkdir tbss
 mkdir tbss/MD
 mkdir tbss/RD
@@ -31,14 +30,4 @@ cd tbss
 # using fsl
 module load fsl/6.0.4
 tbss_1_preproc *.nii.gz
-cd FA/slicesdir
-open ./index.html
-# quality control processed FA images
-#if any images fail QC (ie large parts of brain missing)
-#on local
-# cd ..
-# rm -r sliicesdir
-# cp origdata/*.nii.gz .
-# rm -r origdata
-# rm [problem image].nii.gz
-#repeat step 1 as necessary until there are no problem images
+firefox FA/slicesdir/index.html
