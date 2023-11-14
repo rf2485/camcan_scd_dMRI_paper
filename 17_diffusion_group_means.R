@@ -15,13 +15,14 @@ df <- df[!duplicated_columns]
 df <- df %>% relocate(cohort, .after = last_col())
 
 results <- "asis"
-diff_table <- tableby(cohort ~ mean_FA_lower_cingulum_mask + 
-                        mean_MD_lower_cingulum_mask +
-                        mean_L1_lower_cingulum_mask +
-                        mean_RD_lower_cingulum_mask +
-                        mean_ISOVF_lower_cingulum_mask +
-                        mean_ICVF_lower_cingulum_mask +
-                        mean_OD_lower_cingulum_mask,
+diff_table <- tableby(cohort ~ mean_FA_l_lower_cingulum_mask + 
+                        mean_MD_l_lower_cingulum_mask +
+                        mean_L1_l_lower_cingulum_mask +
+                        mean_RD_l_lower_cingulum_mask +
+                        mean_FA_r_lower_cingulum_mask + 
+                        mean_MD_r_lower_cingulum_mask +
+                        mean_L1_r_lower_cingulum_mask +
+                        mean_RD_r_lower_cingulum_mask,
                         data = df, total = FALSE)
 summary(diff_table, text = TRUE)
 write2word(diff_table, "diff_table.docx")
