@@ -10,7 +10,7 @@ dirS=/gpfs/data/lazarlab/CamCan995/raw/
 #
 # mkdir -p dwi_preprocessing/
 # cut -f1 dwi_over_55.tsv > dwi_preprocessing/subjectsfile.txt
-# sed -i '1d' dwi_preprocessing/subjectsfile.txt
+# sed -i '' '1d' dwi_preprocessing/subjectsfile.txt
 
 module load fsl/6.0.4
 module load mrtrix3/3.0
@@ -32,6 +32,5 @@ mcflirt -in dwi_degibbs.nii -out dwi_corr.nii.gz
 fslroi dwi_corr.nii.gz b0 0 2 #pull b0 images from corrected dwi
 fslmaths b0.nii.gz -Tmean b0_mean.nii.gz #mean across time
 bet b0_mean b0_brain -f 0.2 -g 0 -n -m #generate brain mask
-fslmaths b0_brain_mask -dilD -fillh b0_brain_mask
+fslmaths b0_brain_mask -dilD -fillh -bin b0_brain_mask
 cd ../..
-

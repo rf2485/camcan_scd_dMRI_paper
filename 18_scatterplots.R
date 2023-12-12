@@ -66,7 +66,7 @@ lower_story_df <- df %>% filter(story_d < 0)
 
 ######################## scd-story interaction scatterplots #################################################
 #device size 6.80x4.86 inches
-#width 653 height 466
+#width 693 height 495
 
 FA_scd_story <- lm(mean_FA_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(FA_scd_story)
@@ -324,34 +324,34 @@ summary(r_temppole_scd_age)
 ########################################################### age-story interaction plots ##############################################
 FA_story_age <- lm(mean_FA_r_lower_cingulum_mask ~ story_d * age, df)
 summary(FA_story_age)
-upper_story_FA_age <- lm(mean_FA_r_lower_cingulum_mask ~ story_d, upper_story_df)
-lower_story_FA_age <- lm(mean_FA_r_lower_cingulum_mask ~ story_d, lower_story_df)
-
-interact_plot(FA_story_age, pred = age, modx = story_d, modx.values = "plus-minus",
-              plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
-              legend.main = 'Delayed Story Recall Score'
-) +
-  theme(legend.position = 'none') +
-  labs(x = "Mean Centered Age", y = "Mean FA", title = "Bilateral Mean FA",
-       subtitle = paste0(
-         "interaction p = ", signif(summary(FA_story_age)$coefficients[4,4], 2)
-       )
-  ) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
-                    label = paste0(
-                      "p = ", signif(summary(upper_story_FA_age)$coefficients[2,4], 2),
-                      # "p < 0.001",
-                      ", adj-R<sup>2</sup> = ", signif(summary(upper_story_FA_age)$adj.r.squared, 2))),
-                color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
-                    label = paste0(
-                      "p = ", signif(summary(lower_story_FA_age)$coefficients[2,4], 2),
-                      # "p < 0.001",
-                      ", adj-R<sup>2</sup> = ", signif(summary(lower_story_FA_age)$adj.r.squared, 2))),
-                show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  theme_bw() +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5))
+# upper_story_FA_age <- lm(mean_FA_r_lower_cingulum_mask ~ story_d, upper_story_df)
+# lower_story_FA_age <- lm(mean_FA_r_lower_cingulum_mask ~ story_d, lower_story_df)
+# 
+# interact_plot(FA_story_age, pred = age, modx = story_d, modx.values = "plus-minus",
+#               plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+#               legend.main = 'Delayed Story Recall Score'
+# ) +
+#   theme(legend.position = 'none') +
+#   labs(x = "Mean Centered Age", y = "Mean FA", title = "Bilateral Mean FA",
+#        subtitle = paste0(
+#          "interaction p = ", signif(summary(FA_story_age)$coefficients[4,4], 2)
+#        )
+#   ) +
+#   geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+#                     label = paste0(
+#                       "p = ", signif(summary(upper_story_FA_age)$coefficients[2,4], 2),
+#                       # "p < 0.001",
+#                       ", adj-R<sup>2</sup> = ", signif(summary(upper_story_FA_age)$adj.r.squared, 2))),
+#                 color = "darkblue", show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+#   geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
+#                     label = paste0(
+#                       "p = ", signif(summary(lower_story_FA_age)$coefficients[2,4], 2),
+#                       # "p < 0.001",
+#                       ", adj-R<sup>2</sup> = ", signif(summary(lower_story_FA_age)$adj.r.squared, 2))),
+#                 show.legend = F, fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+#   theme_bw() +
+#   theme(plot.title = element_text(hjust = 0.5),
+#         plot.subtitle = element_text(hjust = 0.5))
 
 MD_story_age <- lm(mean_MD_r_lower_cingulum_mask ~ story_d * age, df)
 summary(MD_story_age) 
