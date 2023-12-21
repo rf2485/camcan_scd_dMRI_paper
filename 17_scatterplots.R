@@ -1,7 +1,6 @@
 library(tidyverse)
 library(ggpmisc)
 library(interactions)
-library(officer)
 library(ggtext)
 
 ######################### data preparation #####################################
