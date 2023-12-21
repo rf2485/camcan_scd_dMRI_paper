@@ -217,6 +217,36 @@ summary(RD_scd_story)
 ################################### scd-age interaction scatterplots ########################################## 
 FA_scd_age <- lm(mean_FA_r_lower_cingulum_mask ~ age * cohort, df)
 summary(FA_scd_age)
+ctl_FA_age <- lm(mean_FA_r_lower_cingulum_mask ~ age, ctl_df)
+scd_FA_age <- lm(mean_FA_r_lower_cingulum_mask ~ age, scd_df)
+interact_plot(FA_scd_age, pred = age, modx = cohort, 
+              plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+              modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+  theme(legend.position = 'none') +
+  labs(x = "Mean Centered Age", y = "Mean FA", title = "Right Mean FA",
+       subtitle = paste0(
+         "interaction p = ",
+         signif(summary(FA_scd_age)$coefficients[4,4], 2)
+       )
+  ) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+                    label = paste0(
+                      "p = ", signif(summary(ctl_FA_age)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_FA_age)$adj.r.squared, 2)),
+                    color = "Control"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
+                    label = paste0(
+                      "p = ", signif(summary(scd_FA_age)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(scd_FA_age)$adj.r.squared, 2)),
+                    color = "SCD"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
 
 MD_scd_age <- lm(mean_MD_r_lower_cingulum_mask ~ age * cohort, df)
 summary(MD_scd_age)
@@ -408,6 +438,13 @@ L1_l_ento_age <- lm(mean_L1_l_lower_cingulum_mask ~ lh_entorhinal + age, df)
 summary(L1_l_ento_age)
 L1_scd_l_ento <- lm(mean_L1_l_lower_cingulum_mask ~ lh_entorhinal * cohort, df)
 summary(L1_scd_l_ento)
+ggplot(df, aes(lh_entorhinal, mean_L1_l_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  labs(title = "Left Mean AxD", x = "Left Entorhinal Cortical Thickness", y = "Mean AxD") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
 
 RD_l_ento <- lm(mean_RD_l_lower_cingulum_mask ~ lh_entorhinal, df)
 summary(RD_l_ento)
@@ -513,6 +550,13 @@ L1_r_temppole_age <- lm(mean_L1_r_lower_cingulum_mask ~ rh_temporalpole + age, d
 summary(L1_r_temppole_age)
 L1_scd_r_temppole <- lm(mean_L1_r_lower_cingulum_mask ~ rh_temporalpole * cohort, df)
 summary(L1_scd_r_temppole)
+ggplot(df, aes(rh_temporalpole, mean_L1_r_lower_cingulum_mask)) +
+  geom_point() +
+  geom_smooth(method = 'lm', formula = y ~ x) +
+  stat_poly_eq(use_label(c("P", "adj.R2")), small.p = T, formula = y ~ x, label.x = "right", vjust = 0.3) +
+  labs(title = "Right Mean AxD", x = "Right Temporal Pole Cortical Thickness", y = "Mean AxD") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
 
 RD_r_temppole <- lm(mean_RD_r_lower_cingulum_mask ~ rh_temporalpole, df)
 summary(RD_r_temppole)
