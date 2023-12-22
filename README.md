@@ -30,7 +30,8 @@ Running this code requires the following dependencies:
 Scripts with .sbatch extensions are written for submission to a SLURM
 batch processing system on a HPC. It is highly recommended to conduct
 this analysis on an HPC. Scripts with .sh extensions are written for
-Mate Desktop.
+Mate Desktop and can be run with either bash or zsh. Scripts with .zsh 
+extensions can only be run with zsh.
 
 Run each numbered script in order. Unnumbered scripts are called by the
 numbered scripts and do not need to be called manually. Wait until the
