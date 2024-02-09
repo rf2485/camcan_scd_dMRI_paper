@@ -5,11 +5,15 @@
 #SBATCH --mem=8G
 #SBATCH --array=1-325
 #SBATCH -o ./slurm_output/8_diff_model_fit/slurm-%A_%a.out
+#SBATCH --partition=radiology,cpu_short,cpu_medium,cpu_long
 
 module load miniconda3/gpu/4.9.2
-#conda create -n amico python=3.7
+# conda create -n amico python=3.7
 conda activate amico
-#pip install dmri-amico==1.5.4
+# pip install packaging
+# pip install numpy
+# conda install openblas
+# pip install dmri-amico==1.5.4
 module load fsl/6.0.4
 
 subj_list=$(cut -f1 dwi_preprocessing/subjectsfile.txt)
@@ -22,7 +26,7 @@ basedir=/gpfs/data/lazarlab/CamCan995/derivatives/camcan_scd_dMRI_paper
 mkdir -p $basedir/diff_model_fit/${j}
 
 if ! [ -f $basedir/diff_model_fit/$j/dti_RD.nii.gz ]; then
-	dtifit --data=$basedir/dwi_preprocessing/${j}/dwi_corr.nii.gz \
+	dtifit --data=$basedir/dwi_preprocessing/${j}/dwi_eddy.nii.gz \
 	  --mask=$basedir/dwi_preprocessing/${j}/b0_brain_mask.nii.gz \
 	  --bvecs=$basedir/dwi_preprocessing/${j}/${j}_dwi.bvec \
 	  --bvals=$basedir/dwi_preprocessing/${j}/${j}_dwi.bval \

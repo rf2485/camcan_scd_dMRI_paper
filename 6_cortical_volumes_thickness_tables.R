@@ -101,3 +101,8 @@ volumes_table <- tableby(SCD ~ `Left-Hippocampus` + `Right-Hippocampus` +
                          data = volumes_thickness, total = FALSE)
 summary(volumes_table, text = TRUE) #view
 write2word(volumes_table, "volumes_table.docx") #save volume table to file
+#t values have to be inserted manually in word
+t.test(lh_entorhinal ~ SCD, data=volumes_thickness)
+t.test(rh_entorhinal ~ SCD, data=volumes_thickness)
+t.test(lh_temporalpole ~ SCD, data=volumes_thickness)
+t.test(rh_temporalpole ~ SCD, data=volumes_thickness)

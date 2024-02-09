@@ -27,6 +27,9 @@ results <- 'asis'
 demo_table <- tableby(SCD ~ Sex + Age, data = dwi_over_55_mem)
 summary(demo_table, text = TRUE)
 write2word(demo_table, "demo_table.docx")
+#t values and chi2 values have to be inserted manually in word
+chisq.test(dwi_over_55_mem$SCD, dwi_over_55_mem$Sex, correct=F)
+t.test(Age ~ SCD, data=dwi_over_55_mem)
 
 cog_table <- tableby(SCD ~ homeint_mmse_cal + homeint_storyrecall_i + 
                        homeint_storyrecall_d + objprpos_emotional_mem + 
@@ -37,4 +40,7 @@ cog_table <- tableby(SCD ~ homeint_mmse_cal + homeint_storyrecall_i +
                      numeric.stats = c("N", "meansd", "range"))
 summary(cog_table, text = TRUE)
 write2word(cog_table, "cog_table.docx")
-
+#t values have to be inserted manually in word
+t.test(homeint_mmse_cal ~ SCD, data=dwi_over_55_mem)
+t.test(homeint_storyrecall_i ~ SCD, data=dwi_over_55_mem)
+t.test(homeint_storyrecall_d ~ SCD, data=dwi_over_55_mem)
