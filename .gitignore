@@ -1,7 +1,5 @@
-.Rproj.user
+.R*
 .DS_Store
-.RData
-.Rhistory
 .smbdelete*
 .tbsslog
 *.Rproj
