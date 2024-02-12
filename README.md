@@ -28,7 +28,7 @@ Running this code requires the following dependencies:
 - MatLab \>= 2023a with Image Processing Toolbox
 
 Scripts with .sbatch extensions are written for submission to a SLURM
-batch processing system on a HPC. It is highly recommended to conduct
+batch processing system on an HPC. It is highly recommended to conduct
 this analysis on an HPC. Scripts with .sh extensions are written for
 Mate Desktop and can be run with either bash or zsh. Scripts with .zsh 
 extensions can only be run with zsh.
