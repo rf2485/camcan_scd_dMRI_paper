@@ -1,9 +1,11 @@
 #!/bin/zsh
 # srun --mem=16G --time=03:00:00 --pty zsh
+# module load fsl/6.0.4
+# module load matlab/R2023a
+
 basedir=/gpfs/data/lazarlab/CamCan995/derivatives/camcan_scd_dMRI_paper
 cd $basedir/tbss/stats/
 metric_list=( FA MD RD L1 ICVF ISOVF OD )
-module load fsl/6.0.4
 
 for metric in ${metric_list[@]}; do
   mkdir -p $basedir/roi_diff_means/$metric
@@ -28,5 +30,4 @@ cd $basedir/roi_diff_means
 
 cp $basedir/tbss/stats/*_mask.nii.gz .
 
-module load matlab/R2023a
 matlab -sd $basedir -batch "roi_diff_means"
