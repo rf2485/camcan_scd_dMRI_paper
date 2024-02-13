@@ -1,7 +1,4 @@
-.R*
-.DS_Store
-.smbdelete*
-.tbsslog
+.*
 *.Rproj
 *.csv
 *.tsv
