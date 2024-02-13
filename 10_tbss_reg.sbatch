@@ -5,7 +5,6 @@
 #SBATCH -N1 -n8 --mem=16G
 #SBATCH --time=3-00:00:00
 #SBATCH -o ./slurm_output/10_tbss_reg/slurm-%j.out
-#SBATCH --partition=radiology,cpu_medium,cpu_long
 
 module load condaenvs/gpu/fsl
 module load fsl/6.0.4

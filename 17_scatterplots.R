@@ -230,15 +230,15 @@ interact_plot(FA_scd_age, pred = age, modx = cohort,
   ) +
   geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
-                      "p = ", signif(summary(ctl_FA_age)$coefficients[2,4], 2),
-                      # "p < 0.001",
+                      # "p = ", signif(summary(ctl_FA_age)$coefficients[2,4], 2),
+                      "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_FA_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
   geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
-                      "p = ", signif(summary(scd_FA_age)$coefficients[2,4], 2),
-                      # "p < 0.001",
+                      # "p = ", signif(summary(scd_FA_age)$coefficients[2,4], 2),
+                      "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(scd_FA_age)$adj.r.squared, 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +

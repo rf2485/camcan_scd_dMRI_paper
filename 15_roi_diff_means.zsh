@@ -31,3 +31,4 @@ cd $basedir/roi_diff_means
 cp $basedir/tbss/stats/*_mask.nii.gz .
 
 matlab -sd $basedir -batch "roi_diff_means"
+

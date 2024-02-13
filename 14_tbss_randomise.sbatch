@@ -23,3 +23,4 @@ for test in "${test_list[@]}"; do
   randomise_parallel -i all_${metric} -o $metric/${metric}_rlc_${test} -m r_lower_cingulum_mask -d ${test}.mat -t ${test}.con -n 500 -T
   randomise_parallel -i all_${metric} -o $metric/${metric}_llc_${test} -m l_lower_cingulum_mask -d ${test}.mat -t ${test}.con -n 500 -T
 done
+

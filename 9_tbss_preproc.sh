@@ -31,3 +31,4 @@ cd tbss
 module load fsl/6.0.4
 tbss_1_preproc *.nii.gz
 firefox FA/slicesdir/index.html
+

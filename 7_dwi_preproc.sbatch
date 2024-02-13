@@ -44,3 +44,4 @@ mri_synthstrip -i b0_mean.nii.gz -o b0_brain.nii.gz -m b0_brain_mask.nii.gz -g -
 fslmaths b0_brain_mask -dilD -fillh -bin b0_brain_mask
 
 cd ../..
+

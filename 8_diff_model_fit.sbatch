@@ -5,7 +5,6 @@
 #SBATCH --mem=8G
 #SBATCH --array=1-325
 #SBATCH -o ./slurm_output/8_diff_model_fit/slurm-%A_%a.out
-#SBATCH --partition=radiology,cpu_short,cpu_medium,cpu_long
 
 module load miniconda3/gpu/4.9.2
 # conda create -n amico python=3.7
