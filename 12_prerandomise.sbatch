@@ -6,7 +6,8 @@
 #SBATCH -o ./slurm_output/12_prerandomise/slurm-%j.out
 
 #using R
-# Rscript fsl_glm_matrices.R
+module load r/4.3.2
+Rscript fsl_glm_matrices.R
 
 #using FSL
 module load fsl/6.0.4
