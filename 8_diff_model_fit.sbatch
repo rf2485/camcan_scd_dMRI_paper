@@ -24,18 +24,19 @@ basedir=/gpfs/data/lazarlab/CamCan995/derivatives/camcan_scd_dMRI_paper
 
 mkdir -p $basedir/diff_model_fit/${j}
 
-# if ! [ -f $basedir/diff_model_fit/$j/dti_RD.nii.gz ]; then
-	dtifit --data=$basedir/dwi_preprocessing/${j}/dwi_eddy.nii.gz \
+if ! [ -f $basedir/diff_model_fit/$j/dti_RD.nii.gz ]; then
+	dtifit --data=$basedir/dwi_preprocessing/${j}/dwi_corr.nii.gz \
 	  --mask=$basedir/dwi_preprocessing/${j}/b0_brain_mask.nii.gz \
 	  --bvecs=$basedir/dwi_preprocessing/${j}/${j}_dwi.bvec \
 	  --bvals=$basedir/dwi_preprocessing/${j}/${j}_dwi.bval \
 	  --out=$basedir/diff_model_fit/$j/dti
 	fslmaths $basedir/diff_model_fit/$j/dti_L2 -add $basedir/diff_model_fit/$j/dti_L3 -div 2 $basedir/diff_model_fit/$j/dti_RD
-# fi
+fi
 
-# if ! [ -f $basedir/diff_model_fit/${j}/FIT_ISOVF.nii.gz ]; then
+if ! [ -f $basedir/diff_model_fit/${j}/FIT_ISOVF.nii.gz ]; then
 	python3 $basedir/amico_noddi.py ${j}
 	mv $basedir/dwi_preprocessing/${j}/AMICO/NODDI/* $basedir/diff_model_fit/${j}/
 	rm -r $basedir/dwi_preprocessing/${j}/AMICO
-# fi
+fi
+
 

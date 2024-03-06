@@ -54,3 +54,4 @@ write.table(age_story_mat, file = "tbss/stats/age_story_mat.txt", sep = "\t",
 age_story_con <- rbind(c(0,0,0,1), c(0,0,0,-1))
 write.table(age_story_con, file = "tbss/stats/age_story_con.txt", sep = "\t",
             row.names = F, col.names = F)
+

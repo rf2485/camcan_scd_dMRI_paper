@@ -193,6 +193,102 @@ interact_plot(RD_scd_story, pred = story_d, modx = cohort,
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
+##NODDI
+OD_scd_story <- lm(mean_OD_r_lower_cingulum_mask ~ story_d * cohort, df)
+summary(OD_scd_story)
+ctl_OD_story <- lm(mean_OD_r_lower_cingulum_mask ~ story_d, ctl_df)
+scd_OD_story <- lm(mean_OD_r_lower_cingulum_mask ~ story_d, scd_df)
+interact_plot(OD_scd_story, pred = story_d, modx = cohort, 
+              plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+              modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+  theme(legend.position = 'none') +
+  labs(x = "Story Delayed Recall", y = "Mean OD", title = "Right Mean OD",
+       subtitle = paste0(
+         "interaction p = ",
+         signif(summary(OD_scd_story)$coefficients[4,4], 2)
+       )
+  ) +
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
+                    label = paste0(
+                      "p = ", signif(summary(ctl_OD_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_OD_story)$adj.r.squared, 2)),
+                    color = "Control"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
+                    label = paste0(
+                      "p = ", signif(summary(scd_OD_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(scd_OD_story)$adj.r.squared, 2)),
+                    color = "SCD"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+ICVF_scd_story <- lm(mean_ICVF_r_lower_cingulum_mask ~ story_d * cohort, df)
+summary(ICVF_scd_story)
+ctl_ICVF_story <- lm(mean_ICVF_r_lower_cingulum_mask ~ story_d, ctl_df)
+scd_ICVF_story <- lm(mean_ICVF_r_lower_cingulum_mask ~ story_d, scd_df)
+interact_plot(ICVF_scd_story, pred = story_d, modx = cohort, 
+              plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+              modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+  theme(legend.position = 'none') +
+  labs(x = "Story Delayed Recall", y = "Mean ICVF", title = "Right Mean ICVF",
+       subtitle = paste0(
+         "interaction p = ",
+         signif(summary(ICVF_scd_story)$coefficients[4,4], 2)
+       )
+  ) +
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
+                    label = paste0(
+                      "p = ", signif(summary(ctl_ICVF_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_ICVF_story)$adj.r.squared, 2)),
+                    color = "Control"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
+                    label = paste0(
+                      "p = ", signif(summary(scd_ICVF_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(scd_ICVF_story)$adj.r.squared, 2)),
+                    color = "SCD"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+ISOVF_scd_story <- lm(mean_ISOVF_r_lower_cingulum_mask ~ story_d * cohort, df)
+summary(ISOVF_scd_story)
+ctl_ISOVF_story <- lm(mean_ISOVF_r_lower_cingulum_mask ~ story_d, ctl_df)
+scd_ISOVF_story <- lm(mean_ISOVF_r_lower_cingulum_mask ~ story_d, scd_df)
+interact_plot(ISOVF_scd_story, pred = story_d, modx = cohort, 
+              plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+              modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+  theme(legend.position = 'none') +
+  labs(x = "Story Delayed Recall", y = "Mean ISOVF", title = "Right Mean ISOVF",
+       subtitle = paste0(
+         "interaction p = ",
+         signif(summary(ISOVF_scd_story)$coefficients[4,4], 2)
+       )
+  ) +
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
+                    label = paste0(
+                      "p = ", signif(summary(ctl_ISOVF_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_ISOVF_story)$adj.r.squared, 2)),
+                    color = "Control"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
+                    label = paste0(
+                      "p = ", signif(summary(scd_ISOVF_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(scd_ISOVF_story)$adj.r.squared, 2)),
+                    color = "SCD"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
 
 ### thickness group-story interaction
 l_ento_scd_story <- lm(lh_entorhinal ~ story_d * cohort, df)
@@ -337,6 +433,103 @@ interact_plot(RD_scd_age, pred = age, modx = cohort,
                       # "p = ", signif(summary(scd_RD_age)$coefficients[2,4], 2),
                       "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(scd_RD_age)$adj.r.squared, 2)),
+                    color = "SCD"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+##NODDI
+OD_scd_age <- lm(mean_OD_r_lower_cingulum_mask ~ age * cohort, df)
+summary(OD_scd_age)
+ctl_OD_age <- lm(mean_OD_r_lower_cingulum_mask ~ age, ctl_df)
+scd_OD_age <- lm(mean_OD_r_lower_cingulum_mask ~ age, scd_df)
+interact_plot(OD_scd_age, pred = age, modx = cohort, 
+              plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+              modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+  theme(legend.position = 'none') +
+  labs(x = "Mean Centered Age", y = "Mean OD", title = "Right Mean OD",
+       subtitle = paste0(
+         "interaction p = ",
+         signif(summary(OD_scd_age)$coefficients[4,4], 2)
+       )
+  ) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+                    label = paste0(
+                      # "p = ", signif(summary(ctl_OD_age)$coefficients[2,4], 2),
+                      "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_OD_age)$adj.r.squared, 2)),
+                    color = "Control"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
+                    label = paste0(
+                      "p = ", signif(summary(scd_OD_age)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(scd_OD_age)$adj.r.squared, 2)),
+                    color = "SCD"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+ICVF_scd_age <- lm(mean_ICVF_r_lower_cingulum_mask ~ age * cohort, df)
+summary(ICVF_scd_age)
+ctl_ICVF_age <- lm(mean_ICVF_r_lower_cingulum_mask ~ age, ctl_df)
+scd_ICVF_age <- lm(mean_ICVF_r_lower_cingulum_mask ~ age, scd_df)
+interact_plot(ICVF_scd_age, pred = age, modx = cohort, 
+              plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+              modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+  theme(legend.position = 'none') +
+  labs(x = "Mean Centered Age", y = "Mean ICVF", title = "Right Mean ICVF",
+       subtitle = paste0(
+         "interaction p = ",
+         signif(summary(ICVF_scd_age)$coefficients[4,4], 2)
+       )
+  ) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+                    label = paste0(
+                      "p = ", signif(summary(ctl_ICVF_age)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_ICVF_age)$adj.r.squared, 2)),
+                    color = "Control"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
+                    label = paste0(
+                      "p = ", signif(summary(scd_ICVF_age)$coefficients[2,4], 2),
+                      # "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(scd_ICVF_age)$adj.r.squared, 2)),
+                    color = "SCD"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+ISOVF_scd_age <- lm(mean_ISOVF_r_lower_cingulum_mask ~ age * cohort, df)
+summary(ISOVF_scd_age)
+ctl_ISOVF_age <- lm(mean_ISOVF_r_lower_cingulum_mask ~ age, ctl_df)
+scd_ISOVF_age <- lm(mean_ISOVF_r_lower_cingulum_mask ~ age, scd_df)
+interact_plot(ISOVF_scd_age, pred = age, modx = cohort, 
+              plot.points = TRUE, interval = TRUE, point.alpha = 1, vary.lty = FALSE,
+              modx.labels = c('Control', 'SCD'), legend.main = 'Cohort') +
+  theme(legend.position = 'none') +
+  labs(x = "Mean Centered Age", y = "Mean ISOVF", title = "Right Mean ISOVF",
+       subtitle = paste0(
+         "interaction p = ",
+         signif(summary(ISOVF_scd_age)$coefficients[4,4], 2)
+       )
+  ) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+                    label = paste0(
+                      # "p = ", signif(summary(ctl_ISOVF_age)$coefficients[2,4], 2),
+                      "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(ctl_ISOVF_age)$adj.r.squared, 2)),
+                    color = "Control"), show.legend = F,
+                fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
+  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
+                    label = paste0(
+                      # "p = ", signif(summary(scd_ISOVF_age)$coefficients[2,4], 2),
+                      "p < 0.001",
+                      ", adj-R<sup>2</sup> = ", signif(summary(scd_ISOVF_age)$adj.r.squared, 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
   theme_bw() +

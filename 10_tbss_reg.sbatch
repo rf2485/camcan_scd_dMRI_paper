@@ -12,3 +12,4 @@ module load fsl/6.0.4
 # export FSLSUB_CONF=/gpfs/home/rf2485/fsl_sub.yml
 cd tbss
 tbss_2_reg -T
+

@@ -10,3 +10,4 @@
 module load fsl/6.0.4
 cd tbss
 tbss_3_postreg -S
+

@@ -19,6 +19,8 @@ j=${subj_list[$subj_num]}
 
 module load fsl/6.0.4
 module load mrtrix3/3.0
+# module load cuda/9.1
+# module load freesurfer/7.4.1
 
 mkdir -p dwi_preprocessing/${j}
 cp $dirS/${j}/dwi/${j}_dwi.* dwi_preprocessing/${j}/

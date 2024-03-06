@@ -26,3 +26,16 @@ diff_table <- tableby(cohort ~ mean_FA_l_lower_cingulum_mask +
                         data = df, total = FALSE)
 summary(diff_table, text = TRUE)
 write2word(diff_table, "diff_table.docx")
+
+means <- df %>% group_by(cohort) %>% 
+  summarize(across(ends_with("lower_cingulum_mask"), 
+                   list(mean = mean, sd = sd, min = min, max = max)))
+#t values have to be inserted manually in word
+t.test(mean_FA_l_lower_cingulum_mask ~ cohort, data = df)
+t.test(mean_MD_l_lower_cingulum_mask ~ cohort, data = df)
+t.test(mean_L1_l_lower_cingulum_mask ~ cohort, data = df)
+t.test(mean_RD_l_lower_cingulum_mask ~ cohort, data = df)
+t.test(mean_FA_r_lower_cingulum_mask ~ cohort, data = df)
+t.test(mean_MD_r_lower_cingulum_mask ~ cohort, data = df)
+t.test(mean_L1_r_lower_cingulum_mask ~ cohort, data = df)
+t.test(mean_RD_r_lower_cingulum_mask ~ cohort, data = df)

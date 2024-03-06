@@ -14,3 +14,4 @@ metric=${metric_list[$metric_num]}
 module load fsl/6.0.4
 cd tbss
 tbss_non_FA ${metric}
+
