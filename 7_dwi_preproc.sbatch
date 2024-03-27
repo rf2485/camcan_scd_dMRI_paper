@@ -27,7 +27,7 @@ cp $dirS/${j}/dwi/${j}_dwi.* dwi_preprocessing/${j}/
 cd dwi_preprocessing/${j}/
 
 if ! [ -f dwi_degibbs.nii ]; then
-	dwidenoise ${j}_dwi.nii.gz dwi_denoised.nii
+	dwidenoise ${j}_dwi.nii.gz dwi_denoised.nii -noise noisemap.nii
 
 	mrcalc ${j}_dwi.nii.gz dwi_denoised.nii -subtract dwi_residuals.nii
 	mrdegibbs dwi_denoised.nii dwi_degibbs.nii

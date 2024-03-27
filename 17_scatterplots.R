@@ -619,7 +619,7 @@ summary(MD_scd_l_ento)
 ggplot(df, aes(lh_entorhinal, mean_MD_l_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  stat_poly_eq(use_label(c("P", "adj.R2")), small.p = T, formula = y ~ x, label.x = "right") +
   labs(title = "Left Mean MD", x = "Left Entorhinal Cortical Thickness", y = "Mean MD") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
@@ -633,7 +633,7 @@ summary(L1_scd_l_ento)
 ggplot(df, aes(lh_entorhinal, mean_L1_l_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
+  stat_poly_eq(use_label(c("P", "adj.R2")), small.p = T, formula = y ~ x, label.x = "right") +
   labs(title = "Left Mean AxD", x = "Left Entorhinal Cortical Thickness", y = "Mean AxD") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
@@ -764,3 +764,21 @@ ggplot(df, aes(rh_temporalpole, mean_RD_r_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
+#### cognition - atrophy - diffusion - group anaylyses ######
+## story-atrophy
+story_l_ento <- lm(story_d ~ lh_entorhinal + cohort, df)
+summary(story_l_ento)
+story_r_ento <- lm(story_d ~ rh_entorhinal + cohort, df)
+summary(story_r_ento)
+story_r_temppole <- lm(story_d ~ rh_temporalpole + cohort, df)
+summary(story_r_temppole) #no significant correlations when controlling for group
+
+##story-diffusion
+story_FA <- lm(story_d ~ mean_FA_r_lower_cingulum_mask + cohort, df)
+summary(story_FA)
+story_MD <- lm(story_d ~ mean_MD_r_lower_cingulum_mask + cohort, df) 
+summary(story_MD) #significant
+story_L1 <- lm(story_d ~ mean_L1_r_lower_cingulum_mask + cohort, df)
+summary(story_L1) #significant
+story_RD <- lm(story_d ~ mean_RD_r_lower_cingulum_mask + cohort, df)
+summary(story_RD) #significant
