@@ -816,3 +816,18 @@ story_r_temppole_L1 <- lm(story_d ~ rh_temporalpole + mean_L1_r_lower_cingulum_m
 summary(story_r_temppole_L1)
 story_r_temppole_RD <- lm(story_d ~ rh_temporalpole + mean_RD_r_lower_cingulum_mask, df)
 summary(story_r_temppole_RD)
+
+#all metrics together
+story_diffusion <- lm(story_d ~ mean_FA_r_lower_cingulum_mask + 
+                        mean_MD_r_lower_cingulum_mask +
+                        mean_L1_r_lower_cingulum_mask +
+                        mean_RD_r_lower_cingulum_mask, 
+                      df)
+summary(story_diffusion)
+story_diffusion_atrophy <- lm(story_d ~ mean_FA_r_lower_cingulum_mask + 
+                                mean_MD_r_lower_cingulum_mask +
+                                mean_L1_r_lower_cingulum_mask +
+                                mean_RD_r_lower_cingulum_mask +
+                                lh_entorhinal + rh_entorhinal + rh_temporalpole,
+                              df)
+summary(story_diffusion_atrophy)
