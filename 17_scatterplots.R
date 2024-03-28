@@ -764,21 +764,55 @@ ggplot(df, aes(rh_temporalpole, mean_RD_r_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
-#### cognition - atrophy - diffusion - group anaylyses ######
+#### cognition - atrophy - diffusion anaylyses ######
 ## story-atrophy
-story_l_ento <- lm(story_d ~ lh_entorhinal + cohort, df)
+story_l_ento <- lm(story_d ~ lh_entorhinal, df)
 summary(story_l_ento)
-story_r_ento <- lm(story_d ~ rh_entorhinal + cohort, df)
+story_r_ento <- lm(story_d ~ rh_entorhinal, df)
 summary(story_r_ento)
-story_r_temppole <- lm(story_d ~ rh_temporalpole + cohort, df)
-summary(story_r_temppole) #no significant correlations when controlling for group
+story_r_temppole <- lm(story_d ~ rh_temporalpole, df)
+summary(story_r_temppole) #no significant correlations
 
 ##story-diffusion
-story_FA <- lm(story_d ~ mean_FA_r_lower_cingulum_mask + cohort, df)
-summary(story_FA)
-story_MD <- lm(story_d ~ mean_MD_r_lower_cingulum_mask + cohort, df) 
-summary(story_MD) #significant
-story_L1 <- lm(story_d ~ mean_L1_r_lower_cingulum_mask + cohort, df)
-summary(story_L1) #significant
-story_RD <- lm(story_d ~ mean_RD_r_lower_cingulum_mask + cohort, df)
-summary(story_RD) #significant
+story_r_FA <- lm(story_d ~ mean_FA_r_lower_cingulum_mask, df)
+summary(story_r_FA)
+story_l_FA <- lm(story_d ~ mean_FA_l_lower_cingulum_mask, df)
+summary(story_l_FA)
+story_r_MD <- lm(story_d ~ mean_MD_r_lower_cingulum_mask, df) 
+summary(story_r_MD) #significant
+story_l_MD <- lm(story_d ~ mean_MD_l_lower_cingulum_mask, df) 
+summary(story_l_MD)
+story_r_L1 <- lm(story_d ~ mean_L1_r_lower_cingulum_mask, df)
+summary(story_r_L1) #significant
+story_l_L1 <- lm(story_d ~ mean_L1_l_lower_cingulum_mask, df)
+summary(story_l_L1)
+story_r_RD <- lm(story_d ~ mean_RD_r_lower_cingulum_mask, df)
+summary(story_r_RD) #significant
+story_l_RD <- lm(story_d ~ mean_RD_l_lower_cingulum_mask, df)
+summary(story_l_RD)
+
+##story-diffusion-atrophy
+story_l_ento_FA <- lm(story_d ~ lh_entorhinal + mean_FA_r_lower_cingulum_mask, df)
+summary(story_l_ento_FA)
+story_l_ento_MD <- lm(story_d ~ lh_entorhinal + mean_MD_r_lower_cingulum_mask, df)
+summary(story_l_ento_MD)
+story_l_ento_L1 <- lm(story_d ~ lh_entorhinal + mean_L1_r_lower_cingulum_mask, df)
+summary(story_l_ento_L1)
+story_l_ento_RD <- lm(story_d ~ lh_entorhinal + mean_RD_r_lower_cingulum_mask, df)
+summary(story_l_ento_RD)
+story_r_ento_FA <- lm(story_d ~ rh_entorhinal + mean_FA_r_lower_cingulum_mask, df)
+summary(story_r_ento_FA)
+story_r_ento_MD <- lm(story_d ~ rh_entorhinal + mean_MD_r_lower_cingulum_mask, df)
+summary(story_r_ento_MD)
+story_r_ento_L1 <- lm(story_d ~ rh_entorhinal + mean_L1_r_lower_cingulum_mask, df)
+summary(story_r_ento_L1)
+story_r_ento_RD <- lm(story_d ~ rh_entorhinal + mean_RD_r_lower_cingulum_mask, df)
+summary(story_r_ento_RD)
+story_r_temppole_FA <- lm(story_d ~ rh_temporalpole + mean_FA_r_lower_cingulum_mask, df)
+summary(story_r_temppole_FA)
+story_r_temppole_MD <- lm(story_d ~ rh_temporalpole + mean_MD_r_lower_cingulum_mask, df)
+summary(story_r_temppole_MD)
+story_r_temppole_L1 <- lm(story_d ~ rh_temporalpole + mean_L1_r_lower_cingulum_mask, df)
+summary(story_r_temppole_L1)
+story_r_temppole_RD <- lm(story_d ~ rh_temporalpole + mean_RD_r_lower_cingulum_mask, df)
+summary(story_r_temppole_RD)
