@@ -7,7 +7,7 @@
 #SBATCH --array=1-7
 #SBATCH -o ./slurm_output/14_tbss_randomise/slurm-%A_%a.out
 
-metric_list=(FA MD RD L1 ISOVF ICVF OD)
+metric_list=(FA MD RD L1)
 metric_num=$(($SLURM_ARRAY_TASK_ID-1))
 metric=${metric_list[$metric_num]}
 
