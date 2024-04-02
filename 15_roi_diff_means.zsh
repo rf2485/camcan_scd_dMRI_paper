@@ -1,9 +1,9 @@
 #!/bin/zsh
-# srun --mem=16G --time=03:00:00 --pty zsh
+# srun --mem=16G --time=06:00:00 --pty zsh
 # module load fsl/6.0.4
 # module load matlab/R2023a
 
-basedir=/gpfs/data/lazarlab/CamCan995/derivatives/camcan_scd_dMRI_paper
+basedir=/gpfs/data/lazarlab/CamCan995/derivatives/camcan_scd_dMRI_paper_eddy
 cd $basedir/tbss/stats/
 metric_list=( FA MD RD L1 ICVF ISOVF OD )
 

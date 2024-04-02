@@ -122,8 +122,8 @@ interact_plot(MD_scd_story, pred = story_d, modx = cohort,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
   geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
                     label = paste0(
-                      # "p = ", signif(summary(scd_MD_story)$coefficients[2,4], 2),
-                      "p < 0.001",
+                      "p = ", signif(summary(scd_MD_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(scd_MD_story)$adj.r.squared, 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
@@ -153,8 +153,8 @@ interact_plot(L1_scd_story, pred = story_d, modx = cohort,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
   geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
                     label = paste0(
-                      # "p = ", signif(summary(scd_L1_story)$coefficients[2,4], 2),
-                      "p < 0.001",
+                      "p = ", signif(summary(scd_L1_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(scd_L1_story)$adj.r.squared, 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
@@ -185,8 +185,8 @@ interact_plot(RD_scd_story, pred = story_d, modx = cohort,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
   geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
                     label = paste0(
-                      # "p = ", signif(summary(scd_RD_story)$coefficients[2,4], 2),
-                      "p < 0.001",
+                      "p = ", signif(summary(scd_RD_story)$coefficients[2,4], 2),
+                      # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(scd_RD_story)$adj.r.squared, 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
@@ -391,8 +391,8 @@ interact_plot(L1_scd_age, pred = age, modx = cohort,
   ) +
   geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
                     label = paste0(
-                      # "p = ", signif(summary(ctl_L1_age)$coefficients[2,4], 2),
-                      "p < 0.001",
+                      "p = ", signif(summary(ctl_L1_age)$coefficients[2,4], 2),
+                      # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(ctl_L1_age)$adj.r.squared, 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
@@ -495,8 +495,8 @@ interact_plot(ICVF_scd_age, pred = age, modx = cohort,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
   geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
-                      "p = ", signif(summary(scd_ICVF_age)$coefficients[2,4], 2),
-                      # "p < 0.001",
+                      # "p = ", signif(summary(scd_ICVF_age)$coefficients[2,4], 2),
+                      "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(scd_ICVF_age)$adj.r.squared, 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
@@ -527,14 +527,15 @@ interact_plot(ISOVF_scd_age, pred = age, modx = cohort,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
   geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
                     label = paste0(
-                      # "p = ", signif(summary(scd_ISOVF_age)$coefficients[2,4], 2),
-                      "p < 0.001",
+                      "p = ", signif(summary(scd_ISOVF_age)$coefficients[2,4], 2),
+                      # "p < 0.001",
                       ", adj-R<sup>2</sup> = ", signif(summary(scd_ISOVF_age)$adj.r.squared, 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
+
 
 l_ento_scd_age <- lm(lh_entorhinal ~ age * cohort, df)
 summary(l_ento_scd_age)
@@ -619,7 +620,7 @@ summary(MD_scd_l_ento)
 ggplot(df, aes(lh_entorhinal, mean_MD_l_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label(c("P", "adj.R2")), small.p = T, formula = y ~ x, label.x = "right") +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
   labs(title = "Left Mean MD", x = "Left Entorhinal Cortical Thickness", y = "Mean MD") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
@@ -633,7 +634,7 @@ summary(L1_scd_l_ento)
 ggplot(df, aes(lh_entorhinal, mean_L1_l_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  stat_poly_eq(use_label(c("P", "adj.R2")), small.p = T, formula = y ~ x, label.x = "right") +
+  stat_poly_eq(use_label("P"), small.p = T, formula = y ~ x, label.x = "right") +
   labs(title = "Left Mean AxD", x = "Left Entorhinal Cortical Thickness", y = "Mean AxD") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
@@ -764,70 +765,3 @@ ggplot(df, aes(rh_temporalpole, mean_RD_r_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
-#### cognition - atrophy - diffusion anaylyses ######
-## story-atrophy
-story_l_ento <- lm(story_d ~ lh_entorhinal, df)
-summary(story_l_ento)
-story_r_ento <- lm(story_d ~ rh_entorhinal, df)
-summary(story_r_ento)
-story_r_temppole <- lm(story_d ~ rh_temporalpole, df)
-summary(story_r_temppole) #no significant correlations
-
-##story-diffusion
-story_r_FA <- lm(story_d ~ mean_FA_r_lower_cingulum_mask, df)
-summary(story_r_FA)
-story_l_FA <- lm(story_d ~ mean_FA_l_lower_cingulum_mask, df)
-summary(story_l_FA)
-story_r_MD <- lm(story_d ~ mean_MD_r_lower_cingulum_mask, df) 
-summary(story_r_MD) #significant
-story_l_MD <- lm(story_d ~ mean_MD_l_lower_cingulum_mask, df) 
-summary(story_l_MD)
-story_r_L1 <- lm(story_d ~ mean_L1_r_lower_cingulum_mask, df)
-summary(story_r_L1) #significant
-story_l_L1 <- lm(story_d ~ mean_L1_l_lower_cingulum_mask, df)
-summary(story_l_L1)
-story_r_RD <- lm(story_d ~ mean_RD_r_lower_cingulum_mask, df)
-summary(story_r_RD) #significant
-story_l_RD <- lm(story_d ~ mean_RD_l_lower_cingulum_mask, df)
-summary(story_l_RD)
-
-##story-diffusion-atrophy
-story_l_ento_FA <- lm(story_d ~ lh_entorhinal + mean_FA_r_lower_cingulum_mask, df)
-summary(story_l_ento_FA)
-story_l_ento_MD <- lm(story_d ~ lh_entorhinal + mean_MD_r_lower_cingulum_mask, df)
-summary(story_l_ento_MD)
-story_l_ento_L1 <- lm(story_d ~ lh_entorhinal + mean_L1_r_lower_cingulum_mask, df)
-summary(story_l_ento_L1)
-story_l_ento_RD <- lm(story_d ~ lh_entorhinal + mean_RD_r_lower_cingulum_mask, df)
-summary(story_l_ento_RD)
-story_r_ento_FA <- lm(story_d ~ rh_entorhinal + mean_FA_r_lower_cingulum_mask, df)
-summary(story_r_ento_FA)
-story_r_ento_MD <- lm(story_d ~ rh_entorhinal + mean_MD_r_lower_cingulum_mask, df)
-summary(story_r_ento_MD)
-story_r_ento_L1 <- lm(story_d ~ rh_entorhinal + mean_L1_r_lower_cingulum_mask, df)
-summary(story_r_ento_L1)
-story_r_ento_RD <- lm(story_d ~ rh_entorhinal + mean_RD_r_lower_cingulum_mask, df)
-summary(story_r_ento_RD)
-story_r_temppole_FA <- lm(story_d ~ rh_temporalpole + mean_FA_r_lower_cingulum_mask, df)
-summary(story_r_temppole_FA)
-story_r_temppole_MD <- lm(story_d ~ rh_temporalpole + mean_MD_r_lower_cingulum_mask, df)
-summary(story_r_temppole_MD)
-story_r_temppole_L1 <- lm(story_d ~ rh_temporalpole + mean_L1_r_lower_cingulum_mask, df)
-summary(story_r_temppole_L1)
-story_r_temppole_RD <- lm(story_d ~ rh_temporalpole + mean_RD_r_lower_cingulum_mask, df)
-summary(story_r_temppole_RD)
-
-#all metrics together
-story_diffusion <- lm(story_d ~ mean_FA_r_lower_cingulum_mask + 
-                        mean_MD_r_lower_cingulum_mask +
-                        mean_L1_r_lower_cingulum_mask +
-                        mean_RD_r_lower_cingulum_mask, 
-                      df)
-summary(story_diffusion)
-story_diffusion_atrophy <- lm(story_d ~ mean_FA_r_lower_cingulum_mask + 
-                                mean_MD_r_lower_cingulum_mask +
-                                mean_L1_r_lower_cingulum_mask +
-                                mean_RD_r_lower_cingulum_mask +
-                                lh_entorhinal + rh_entorhinal + rh_temporalpole,
-                              df)
-summary(story_diffusion_atrophy)

@@ -5,10 +5,6 @@
 #SBATCH --time=12:00:00
 #SBATCH -o ./slurm_output/12_prerandomise/slurm-%j.out
 
-#using R
-# module load r/4.3.2
-# Rscript fsl_glm_matrices.R
-
 #using FSL
 module load fsl/6.0.4
 FSL_DIR=/gpfs/share/apps/fsl/6.0.4/
@@ -27,3 +23,4 @@ fslmaths JHU-ICBM-labels-1mm.nii.gz -thr 37 -uthr 38 -bin lower_cingulum_mask.ni
 fslmaths JHU-ICBM-labels-1mm.nii.gz -thr 37 -uthr 37 -bin r_lower_cingulum_mask.nii.gz
 fslmaths JHU-ICBM-labels-1mm.nii.gz -thr 38 -uthr 38 -bin l_lower_cingulum_mask.nii.gz
 cd ../..
+
