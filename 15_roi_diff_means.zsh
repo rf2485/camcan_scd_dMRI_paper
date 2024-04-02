@@ -5,7 +5,7 @@
 
 basedir=/gpfs/data/lazarlab/CamCan995/derivatives/camcan_scd_dMRI_paper
 cd $basedir/tbss/stats/
-metric_list=( FA MD RD L1 ICVF ISOVF OD )
+metric_list=( FA MD RD L1 )
 
 for metric in ${metric_list[@]}; do
   mkdir -p $basedir/roi_diff_means/$metric
