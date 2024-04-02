@@ -1,6 +1,6 @@
 cd roi_diff_means/
 
-measures = {'FA', 'ICVF', 'ISOVF', 'L1', 'MD', 'OD', 'RD'};
+measures = {'FA', 'L1', 'MD', 'RD'};
 mask_file_pattern = fullfile(pwd, '*_mask.nii.gz');
 mask_list = dir(mask_file_pattern);
 
