@@ -1,4 +1,4 @@
-metric_list=(FA MD L1 RD OD ICVF ISOVF)
+metric_list=(FA MD L1 RD)
 test_list=(scd_story scd_age age_story)
 
 cd tbss/stats
