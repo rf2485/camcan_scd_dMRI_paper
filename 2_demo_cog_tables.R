@@ -1,5 +1,6 @@
 library(tidyverse)
 library(arsenal)
+library(effectsize)
 
 anat_over_55_mem = read.delim("anat_over_55.tsv", tryLogical = FALSE) %>%
   select(participant_id, SCD, age, sex, homeint_v15, homeint_v24, homeint_v74, 
@@ -58,8 +59,6 @@ write2word(demo_table, "demo_table.docx")
 chisq.test(anat_over_55_mem$SCD, anat_over_55_mem$Sex, correct=F)
 t.test(Age ~ SCD, data=anat_over_55_mem)
 chisq.test(anat_over_55_mem$SCD, anat_over_55_mem$homeint_v15, correct = F)
-chisq.test(anat_over_55_mem$SCD, anat_over_55_mem$homeint_v24, correct = F,
-           simulate.p.value = T)
 t.test(homeint_v74 ~ SCD, data = anat_over_55_mem)
 
 cog_table <- tableby(SCD ~ homeint_mmse_cal + homeint_storyrecall_i + 
@@ -73,5 +72,8 @@ summary(cog_table, text = TRUE)
 write2word(cog_table, "cog_table.docx")
 #t values have to be inserted manually in word
 t.test(homeint_mmse_cal ~ SCD, data=anat_over_55_mem)
+cohens_d(homeint_mmse_cal ~ SCD, data=anat_over_55_mem)
 t.test(homeint_storyrecall_i ~ SCD, data=anat_over_55_mem)
+cohens_d(homeint_storyrecall_i ~ SCD, data=anat_over_55_mem)
 t.test(homeint_storyrecall_d ~ SCD, data=anat_over_55_mem)
+cohens_d(homeint_storyrecall_d ~ SCD, data=anat_over_55_mem)
