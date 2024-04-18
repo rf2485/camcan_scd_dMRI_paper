@@ -79,7 +79,7 @@ upper_story_df_all <- df_all %>% filter(story_d > 0)
 lower_story_df_all <- df_all %>% filter(story_d < 0)
 
 ######################## scd-story interaction scatterplots #################################################
-#graph width 832 height 659
+#graph width 617 height 660
 
 FA_scd_story <- lm(mean_FA_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(FA_scd_story)
@@ -112,10 +112,12 @@ interact_plot(FA_scd_story, pred = story_d, modx = cohort,
                       ", \u03B2 = ", signif(summary(scd_FA_story)$coefficients[2,1], 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  scale_y_continuous(expand = expansion(mult = c(0.02,0.1))) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
 
+df$mean_MD_r_lower_cingulum_mask <- df$mean_MD_r_lower_cingulum_mask * 10^3
 MD_scd_story <- lm(mean_MD_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(MD_scd_story)
 MD_scd_story_all <- lm(mean_MD_r_lower_cingulum_mask ~ story_d * cohort, df_all)
@@ -149,10 +151,12 @@ interact_plot(MD_scd_story, pred = story_d, modx = cohort,
                       ", \u03B2 = ", signif(summary(scd_MD_story)$coefficients[2,1], 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  scale_y_continuous(expand = expansion(mult = c(0.02,0.1))) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
 
+df$mean_L1_r_lower_cingulum_mask <- df$mean_L1_r_lower_cingulum_mask * 10^3
 L1_scd_story <- lm(mean_L1_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(L1_scd_story)
 L1_scd_story_all <- lm(mean_L1_r_lower_cingulum_mask ~ story_d * cohort, df_all)
@@ -186,10 +190,12 @@ interact_plot(L1_scd_story, pred = story_d, modx = cohort,
                       ", \u03B2 = ", signif(summary(scd_L1_story)$coefficients[2,1], 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  scale_y_continuous(expand = expansion(mult = c(0.02,0.1))) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
 
+df$mean_RD_r_lower_cingulum_mask <- df$mean_RD_r_lower_cingulum_mask * 10^3
 RD_scd_story <- lm(mean_RD_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(RD_scd_story)
 RD_scd_story_all <- lm(mean_RD_r_lower_cingulum_mask ~ story_d * cohort, df_all)
@@ -223,6 +229,7 @@ interact_plot(RD_scd_story, pred = story_d, modx = cohort,
                       ", \u03B2 = ", signif(summary(scd_RD_story)$coefficients[2,1], 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  scale_y_continuous(expand = expansion(mult = c(0,0.1))) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
@@ -310,7 +317,7 @@ interact_plot(FA_scd_age, pred = age, modx = cohort,
            ", \u03B2 = " * .(signif(summary(FA_scd_age)$coefficients[4,1], 2))
        )
   ) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(ctl_FA_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -318,7 +325,7 @@ interact_plot(FA_scd_age, pred = age, modx = cohort,
                       ", \u03B2 = ", signif(summary(ctl_FA_age)$coefficients[2,1], 2)),
                     color = "Control"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt")) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 2.5, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 2.5, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(scd_FA_age)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -437,6 +444,7 @@ interact_plot(RD_scd_age, pred = age, modx = cohort,
                       ", \u03B2 = ", signif(summary(scd_RD_age)$coefficients[2,1], 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
+  scale_y_continuous(expand = expansion(mult = c(0.02,0.1))) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
@@ -587,6 +595,7 @@ ggplot(df, aes(lh_entorhinal, mean_FA_l_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
+df$mean_MD_l_lower_cingulum_mask <- df$mean_MD_l_lower_cingulum_mask * 10^3
 MD_l_ento <- lm(mean_MD_l_lower_cingulum_mask ~ lh_entorhinal, df)
 summary(MD_l_ento)
 MD_l_ento_age <- lm(mean_MD_l_lower_cingulum_mask ~ lh_entorhinal + age, df)
@@ -607,6 +616,7 @@ ggplot(df, aes(lh_entorhinal, mean_MD_l_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
+df$mean_L1_l_lower_cingulum_mask <- df$mean_L1_l_lower_cingulum_mask * 10^3
 L1_l_ento <- lm(mean_L1_l_lower_cingulum_mask ~ lh_entorhinal, df)
 summary(L1_l_ento)
 L1_l_ento_age <- lm(mean_L1_l_lower_cingulum_mask ~ lh_entorhinal + age, df)
@@ -627,6 +637,7 @@ ggplot(df, aes(lh_entorhinal, mean_L1_l_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
+df$mean_RD_l_lower_cingulum_mask <- df$mean_RD_l_lower_cingulum_mask * 10^3
 RD_l_ento <- lm(mean_RD_l_lower_cingulum_mask ~ lh_entorhinal, df)
 summary(RD_l_ento)
 RD_l_ento_age <- lm(mean_RD_l_lower_cingulum_mask ~ lh_entorhinal + age, df)
@@ -693,7 +704,7 @@ summary(FA_scd_r_ento)
 ggplot(df, aes(rh_entorhinal, mean_FA_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(FA_r_ento)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -713,7 +724,7 @@ summary(MD_scd_r_ento)
 ggplot(df, aes(rh_entorhinal, mean_MD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(MD_r_ento)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -733,7 +744,7 @@ summary(L1_scd_r_ento)
 ggplot(df, aes(rh_entorhinal, mean_L1_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(L1_r_ento)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -753,7 +764,7 @@ summary(RD_scd_r_ento)
 ggplot(df, aes(rh_entorhinal, mean_RD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       # "p = ", signif(summary(RD_r_ento)$coefficients[2,4], 2),
                       "p < 0.001",
@@ -810,7 +821,7 @@ summary(FA_scd_r_temppole)
 ggplot(df, aes(rh_temporalpole, mean_FA_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(FA_r_temppole)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -830,7 +841,7 @@ summary(MD_scd_r_temppole)
 ggplot(df, aes(rh_temporalpole, mean_MD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(MD_r_temppole)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -850,7 +861,7 @@ summary(L1_scd_r_temppole)
 ggplot(df, aes(rh_temporalpole, mean_L1_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(L1_r_temppole)$coefficients[2,4], 2),
                       # "p < 0.001",
@@ -870,7 +881,7 @@ summary(RD_scd_r_temppole)
 ggplot(df, aes(rh_temporalpole, mean_RD_r_lower_cingulum_mask)) +
   geom_point() +
   geom_smooth(method = 'lm', formula = y ~ x) +
-  geom_richtext(aes(x = -Inf, y = Inf, vjust = 1.1, hjust = -0.01,
+  geom_richtext(aes(x = Inf, y = Inf, vjust = 1.1, hjust = 1.01,
                     label = paste0(
                       "p = ", signif(summary(RD_r_temppole)$coefficients[2,4], 2),
                       # "p < 0.001",
