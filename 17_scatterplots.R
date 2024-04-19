@@ -68,6 +68,13 @@ df_all <- df_all %>%
 df_all <- df_all %>% select(participant_id, cohort, SCD, age, story_d, everything())
 write.csv(df_all, "final_dataframe_all.csv")
 
+df$mean_MD_r_lower_cingulum_mask <- df$mean_MD_r_lower_cingulum_mask * 10^3
+df$mean_L1_r_lower_cingulum_mask <- df$mean_L1_r_lower_cingulum_mask * 10^3
+df$mean_RD_r_lower_cingulum_mask <- df$mean_RD_r_lower_cingulum_mask * 10^3
+df$mean_MD_l_lower_cingulum_mask <- df$mean_MD_l_lower_cingulum_mask * 10^3
+df$mean_L1_l_lower_cingulum_mask <- df$mean_L1_l_lower_cingulum_mask * 10^3
+df$mean_RD_l_lower_cingulum_mask <- df$mean_RD_l_lower_cingulum_mask * 10^3
+
 #split into groups of interest
 ctl_df <- df %>% filter(cohort == 'ctl')
 scd_df <- df %>% filter(cohort == 'scd')
@@ -79,7 +86,7 @@ upper_story_df_all <- df_all %>% filter(story_d > 0)
 lower_story_df_all <- df_all %>% filter(story_d < 0)
 
 ######################## scd-story interaction scatterplots #################################################
-#graph width 617 height 660
+#graph width 693 length 495
 
 FA_scd_story <- lm(mean_FA_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(FA_scd_story)
@@ -117,7 +124,6 @@ interact_plot(FA_scd_story, pred = story_d, modx = cohort,
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
 
-df$mean_MD_r_lower_cingulum_mask <- df$mean_MD_r_lower_cingulum_mask * 10^3
 MD_scd_story <- lm(mean_MD_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(MD_scd_story)
 MD_scd_story_all <- lm(mean_MD_r_lower_cingulum_mask ~ story_d * cohort, df_all)
@@ -156,7 +162,6 @@ interact_plot(MD_scd_story, pred = story_d, modx = cohort,
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
 
-df$mean_L1_r_lower_cingulum_mask <- df$mean_L1_r_lower_cingulum_mask * 10^3
 L1_scd_story <- lm(mean_L1_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(L1_scd_story)
 L1_scd_story_all <- lm(mean_L1_r_lower_cingulum_mask ~ story_d * cohort, df_all)
@@ -195,7 +200,6 @@ interact_plot(L1_scd_story, pred = story_d, modx = cohort,
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
 
-df$mean_RD_r_lower_cingulum_mask <- df$mean_RD_r_lower_cingulum_mask * 10^3
 RD_scd_story <- lm(mean_RD_r_lower_cingulum_mask ~ story_d * cohort, df)
 summary(RD_scd_story)
 RD_scd_story_all <- lm(mean_RD_r_lower_cingulum_mask ~ story_d * cohort, df_all)
@@ -229,7 +233,7 @@ interact_plot(RD_scd_story, pred = story_d, modx = cohort,
                       ", \u03B2 = ", signif(summary(scd_RD_story)$coefficients[2,1], 2)),
                     color = "SCD"), show.legend = F,
                 fill = NA, label.color = NA, label.padding = grid::unit(rep(0,4), "pt"))  +
-  scale_y_continuous(expand = expansion(mult = c(0,0.1))) +
+  scale_y_continuous(expand = expansion(mult = c(0.02,0.1))) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
@@ -253,10 +257,10 @@ l_RD_scd_story_all <- lm(mean_RD_l_lower_cingulum_mask ~ story_d * cohort, df_al
 summary(l_RD_scd_story_all)
 
 l_diff_story_models <- list(
-  "FA" = l_FA_scd_story,
-  "MD" = l_MD_scd_story,
-  "AxD" = l_L1_scd_story,
-  "RD" = l_RD_scd_story
+  "Left FA" = l_FA_scd_story,
+  "Left MD" = l_MD_scd_story,
+  "Left AxD" = l_L1_scd_story,
+  "Left RD" = l_RD_scd_story
 )
 modelsummary(l_diff_story_models,
              statistic = c("SE = {std.error}",
@@ -468,10 +472,10 @@ l_RD_scd_age_all <- lm(mean_RD_l_lower_cingulum_mask ~ age * cohort, df_all)
 summary(l_RD_scd_age_all)
 
 l_diff_age_models <- list(
-  "FA" = l_FA_scd_age,
-  "MD" = l_MD_scd_age,
-  "AxD" = l_L1_scd_age,
-  "RD" = l_RD_scd_age
+  "Left FA" = l_FA_scd_age,
+  "Left MD" = l_MD_scd_age,
+  "Left AxD" = l_L1_scd_age,
+  "Left RD" = l_RD_scd_age
 )
 modelsummary(l_diff_age_models,
              statistic = c("SE = {std.error}",
@@ -533,7 +537,7 @@ modelsummary(age_story_r_diff_models,
                           "story_d:age" = "Age x Story \u03B2"),
              fmt = fmt_statistic(estimate = fmt_sprintf("%.2e"),
                                  std.error = fmt_sprintf("%.2e")),
-             # output = "age_story_r_diff_models.docx"
+             output = "age_story_r_diff_models.docx"
 )
 age_story_l_diff_models <- list(
   "Left FA" = lm(mean_FA_l_lower_cingulum_mask ~ story_d * age, df),
@@ -551,7 +555,7 @@ modelsummary(age_story_l_diff_models,
                           "story_d:age" = "Age x Story \u03B2"),
              fmt = fmt_statistic(estimate = fmt_sprintf("%.2e"),
                                  std.error = fmt_sprintf("%.2e")),
-             # output = "age_story_l_diff_models.docx"
+             output = "age_story_l_diff_models.docx"
 )
 age_story_thick_models <- list(
   "Left Entorhinal" = lm(lh_entorhinal ~ story_d * age, df),
@@ -595,7 +599,6 @@ ggplot(df, aes(lh_entorhinal, mean_FA_l_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
-df$mean_MD_l_lower_cingulum_mask <- df$mean_MD_l_lower_cingulum_mask * 10^3
 MD_l_ento <- lm(mean_MD_l_lower_cingulum_mask ~ lh_entorhinal, df)
 summary(MD_l_ento)
 MD_l_ento_age <- lm(mean_MD_l_lower_cingulum_mask ~ lh_entorhinal + age, df)
@@ -616,7 +619,6 @@ ggplot(df, aes(lh_entorhinal, mean_MD_l_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
-df$mean_L1_l_lower_cingulum_mask <- df$mean_L1_l_lower_cingulum_mask * 10^3
 L1_l_ento <- lm(mean_L1_l_lower_cingulum_mask ~ lh_entorhinal, df)
 summary(L1_l_ento)
 L1_l_ento_age <- lm(mean_L1_l_lower_cingulum_mask ~ lh_entorhinal + age, df)
@@ -637,7 +639,6 @@ ggplot(df, aes(lh_entorhinal, mean_L1_l_lower_cingulum_mask)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
 
-df$mean_RD_l_lower_cingulum_mask <- df$mean_RD_l_lower_cingulum_mask * 10^3
 RD_l_ento <- lm(mean_RD_l_lower_cingulum_mask ~ lh_entorhinal, df)
 summary(RD_l_ento)
 RD_l_ento_age <- lm(mean_RD_l_lower_cingulum_mask ~ lh_entorhinal + age, df)
@@ -659,10 +660,10 @@ ggplot(df, aes(lh_entorhinal, mean_RD_l_lower_cingulum_mask)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 l_ento_diff_models <- list(
-  "FA" = FA_scd_l_ento,
-  "MD" = MD_scd_l_ento,
-  "AxD" = L1_scd_l_ento,
-  "RD" = RD_scd_l_ento
+  "Left FA" = FA_scd_l_ento,
+  "Left MD" = MD_scd_l_ento,
+  "Left AxD" = L1_scd_l_ento,
+  "Left RD" = RD_scd_l_ento
 )
 modelsummary(l_ento_diff_models,
              statistic = c("SE = {std.error}",
@@ -677,10 +678,10 @@ modelsummary(l_ento_diff_models,
              output = "l_ento_diff_models.docx"
 )
 l_ento_age_models <- list(
-  "FA" = FA_l_ento_age,
-  "MD" = MD_l_ento_age,
-  "AxD" = L1_l_ento_age,
-  "RD" = RD_l_ento_age
+  "Left FA" = FA_l_ento_age,
+  "Left MD" = MD_l_ento_age,
+  "Left AxD" = L1_l_ento_age,
+  "Left RD" = RD_l_ento_age
 )
 modelsummary(l_ento_age_models,
              statistic = c("SE = {std.error}",
@@ -776,10 +777,10 @@ ggplot(df, aes(rh_entorhinal, mean_RD_r_lower_cingulum_mask)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 r_ento_diff_models <- list(
-  "FA" = FA_scd_r_ento,
-  "MD" = MD_scd_r_ento,
-  "AxD" = L1_scd_r_ento,
-  "RD" = RD_scd_r_ento
+  "Right FA" = FA_scd_r_ento,
+  "Right MD" = MD_scd_r_ento,
+  "Right AxD" = L1_scd_r_ento,
+  "Right RD" = RD_scd_r_ento
 )
 modelsummary(r_ento_diff_models,
              statistic = c("SE = {std.error}",
@@ -794,10 +795,10 @@ modelsummary(r_ento_diff_models,
              output = "r_ento_diff_models.docx"
 )
 r_ento_age_models <- list(
-  "FA" = FA_r_ento_age,
-  "MD" = MD_r_ento_age,
-  "AxD" = L1_r_ento_age,
-  "RD" = RD_r_ento_age
+  "Right FA" = FA_r_ento_age,
+  "Right MD" = MD_r_ento_age,
+  "Right AxD" = L1_r_ento_age,
+  "Right RD" = RD_r_ento_age
 )
 modelsummary(r_ento_age_models,
              statistic = c("SE = {std.error}",
@@ -893,10 +894,10 @@ ggplot(df, aes(rh_temporalpole, mean_RD_r_lower_cingulum_mask)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 r_temp_diff_models <- list(
-  "FA" = FA_scd_r_temppole,
-  "MD" = MD_scd_r_temppole,
-  "AxD" = L1_scd_r_temppole,
-  "RD" = RD_scd_r_temppole
+  "Right FA" = FA_scd_r_temppole,
+  "Right MD" = MD_scd_r_temppole,
+  "Right AxD" = L1_scd_r_temppole,
+  "Right RD" = RD_scd_r_temppole
 )
 modelsummary(r_temp_diff_models,
              statistic = c("SE = {std.error}",
@@ -911,10 +912,10 @@ modelsummary(r_temp_diff_models,
              output = "r_temp_diff_models.docx"
 )
 r_temp_age_models <- list(
-  "FA" = FA_r_temppole_age,
-  "MD" = MD_r_temppole_age,
-  "AxD" = L1_r_temppole_age,
-  "RD" = RD_r_temppole_age
+  "Right FA" = FA_r_temppole_age,
+  "Right MD" = MD_r_temppole_age,
+  "Right AxD" = L1_r_temppole_age,
+  "Right RD" = RD_r_temppole_age
 )
 modelsummary(r_temp_age_models,
              statistic = c("SE = {std.error}",
