@@ -40,6 +40,8 @@ script finishes before starting the next numbered script.
 The original analysis was conducted on Red Hat Enterprise Linux Server
 release 7.4.
 
+The Cam-CAN data is available at https://camcan-archive.mrc-cbu.cam.ac.uk/dataaccess/
+
 ## License
 
 Shield: [![CC BY-SA
