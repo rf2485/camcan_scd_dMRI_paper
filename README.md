@@ -2,10 +2,9 @@ README
 ================
 
 This is the code used for data processing and statistical analyses in
-Flaherty, R., et al. (2023). *Diffusion Imaging Markers of Accelerated
-Neuronal Aging of the Lower Cingulum in Subjective Cognitive Decline*
-\[Manuscript submitted for publication\]. Department of Radiology, New
-York University School of Medicine.
+Flaherty, R., et al. (2023). "Diffusion Imaging Markers of Accelerated
+Neuronal Aging of the Lower Cingulum in Subjective Cognitive Decline"
+\[In press\]. *Frontiers in Neurology*.
 
 ## Directions
 
